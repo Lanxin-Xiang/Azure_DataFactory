@@ -1,0 +1,45 @@
+{
+	"name": "SupplierCategories_Archive",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "WWI002",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Purchasing"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "SupplierCategoryID",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "SupplierCategoryName",
+				"type": "nvarchar"
+			},
+			{
+				"name": "LastEditedBy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ValidFrom",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "ValidTo",
+				"type": "datetime2",
+				"scale": 7
+			}
+		],
+		"typeProperties": {
+			"schema": "Purchasing",
+			"table": "SupplierCategories_Archive"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

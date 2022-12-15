@@ -1,0 +1,9 @@
+{
+	"name": "LanxinDataFactory",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "fedf067b-c65b-4c27-9c9b-fd9c8d8f7967",
+		"tenantId": "2ca68321-0eda-4908-88b2-424a8cb4b0f9"
+	}
+}
