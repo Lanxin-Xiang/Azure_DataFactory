@@ -57,7 +57,7 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
 				"select1 alterRow(upsertIf(true())) ~> alterRow1",
-				"source1 derive({Lineage Key} = toInteger(year({Last Modified When}))  - 2013) ~> derivedLineageKey",
+				"source1 derive({Lineage Key} = toInteger(year(currentDate())-year({Last Modified When}))) ~> derivedLineageKey",
 				"derivedColumn1 select(mapColumn(",
 				"          {Purchase Key} = {Purchase Staging Key},",
 				"          {Date Key},",

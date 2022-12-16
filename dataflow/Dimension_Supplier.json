@@ -181,7 +181,7 @@
 				"     broadcast: 'auto')~> join2",
 				"select1 alterRow(upsertIf(true())) ~> AlterRow1",
 				"AlterRow1 sink(allowSchemaDrift: true,",
-				"     validateSchema: true,",
+				"     validateSchema: false,",
 				"     input(",
 				"          {Supplier Key} as integer,",
 				"          {WWI Supplier ID} as integer,",
