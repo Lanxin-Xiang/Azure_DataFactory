@@ -72,10 +72,10 @@
 					"name": "derivedOrderedQuantity"
 				},
 				{
-					"name": "WWIStockItemID"
+					"name": "surrogateKey1"
 				},
 				{
-					"name": "surrogateKey1"
+					"name": "WWIStockItemsKey"
 				}
 			],
 			"scriptLines": [
@@ -226,7 +226,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join2",
-				"join1, WWIStockItemID join(select2@WWIStockItemID == StockItemID,",
+				"join1, WWIStockItemsKey join(WWIPurchaseOrderID == StockItemID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
@@ -242,7 +242,7 @@
 				"          PurchaseStagingKey,",
 				"          DateKey = OrderDate,",
 				"          SupplierKey = select1@WWISupplierID,",
-				"          StockItemKey = select2@WWIStockItemID,",
+				"          StockItemKey = WWIStockItemID,",
 				"          WWIPurchaseOrderID = select1@WWISupplierID,",
 				"          OrderedOuters,",
 				"          OrderedQuantity,",
@@ -256,10 +256,12 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select6",
 				"join2 derive(OrderedQuantity = QuantityPerOuter*OrderedOuters) ~> derivedOrderedQuantity",
-				"select5 derive(WWIStockItemID = ERROR_FUNCTION('concat(StockItemID, currentDate(string))')) ~> WWIStockItemID",
-				"derivedOrderedQuantity keyGenerate(output(PurchaseStaging as long),",
+				"derivedOrderedQuantity keyGenerate(output(PurchaseStagingKey as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
+				"select5 keyGenerate(output(WWIStockItemsKey as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> WWIStockItemsKey",
 				"select6 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
@@ -269,21 +271,7 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          PurchaseStagingKey,",
-				"          DateKey,",
-				"          SupplierKey,",
-				"          StockItemKey,",
-				"          OrderedOuters,",
-				"          OrderedQuantity,",
-				"          ReceivedOuters,",
-				"          Package,",
-				"          IsOrderLineFinalized,",
-				"          WWISupplierID,",
-				"          WWIStockItemID,",
-				"          LastModifiedWhen",
-				"     )) ~> sinkPurchaseStaging"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkPurchaseStaging"
 			]
 		}
 	}
