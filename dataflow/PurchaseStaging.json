@@ -72,10 +72,13 @@
 					"name": "derivedOrderedQuantity"
 				},
 				{
-					"name": "surrogateKey1"
+					"name": "WWIStockItemsKey"
 				},
 				{
-					"name": "WWIStockItemsKey"
+					"name": "PurchaseStagingKey"
+				},
+				{
+					"name": "select7"
 				}
 			],
 			"scriptLines": [
@@ -238,8 +241,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select5",
-				"surrogateKey1 select(mapColumn(",
-				"          PurchaseStagingKey,",
+				"derivedOrderedQuantity select(mapColumn(",
 				"          DateKey = OrderDate,",
 				"          SupplierKey = select1@WWISupplierID,",
 				"          StockItemKey = WWIStockItemID,",
@@ -250,19 +252,35 @@
 				"          Package = OuterPackageID,",
 				"          IsOrderLineFinalized,",
 				"          WWISupplierID = select3@SupplierKey,",
-				"          WWIStockItemID = WWIStockItemID@WWIStockItemID,",
+				"          WWIStockItemID = StockItemKey,",
 				"          LastModifiedWhen = LastEditedWhen",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select6",
 				"join2 derive(OrderedQuantity = QuantityPerOuter*OrderedOuters) ~> derivedOrderedQuantity",
-				"derivedOrderedQuantity keyGenerate(output(PurchaseStagingKey as long),",
-				"     startAt: 1L,",
-				"     stepValue: 1L) ~> surrogateKey1",
 				"select5 keyGenerate(output(WWIStockItemsKey as long),",
-				"     startAt: 1L,",
+				"     startAt: 10000L,",
 				"     stepValue: 1L) ~> WWIStockItemsKey",
-				"select6 sink(allowSchemaDrift: true,",
+				"select6 keyGenerate(output(PurchaseStagingKey as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> PurchaseStagingKey",
+				"PurchaseStagingKey select(mapColumn(",
+				"          PurchaseStagingKey,",
+				"          DateKey,",
+				"          SupplierKey,",
+				"          StockItemKey,",
+				"          OrderedOuters,",
+				"          OrderedQuantity,",
+				"          ReceivedOuters,",
+				"          Package,",
+				"          IsOrderLineFinalized,",
+				"          WWISupplierID,",
+				"          WWIStockItemID,",
+				"          LastModifiedWhen",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select7",
+				"select7 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
