@@ -120,6 +120,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Integration",
+					"table": "Purchase_Staging"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Integration002')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/PurchaseOrderLines')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -395,6 +416,146 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ODS002')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/StockItems')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WWI002",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "StockItemID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "StockItemName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupplierID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ColorID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "UnitPackageID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "OuterPackageID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Brand",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Size",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LeadTimeDays",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "QuantityPerOuter",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "IsChillerStock",
+						"type": "bit"
+					},
+					{
+						"name": "Barcode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TaxRate",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "UnitPrice",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "RecommendedRetailPrice",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "TypicalWeightPerUnit",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 3
+					},
+					{
+						"name": "MarketingComments",
+						"type": "nvarchar"
+					},
+					{
+						"name": "InternalComments",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Photo",
+						"type": "varbinary"
+					},
+					{
+						"name": "CustomFields",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Tags",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SearchDetails",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastEditedBy",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ValidFrom",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ValidTo",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "Warehouse",
+					"table": "StockItems"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/WWI002')]"
 			]
 		},
 		{
@@ -887,182 +1048,6 @@
 				"typeProperties": {
 					"schema": "Purchasing",
 					"table": "Suppliers"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ODS002')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Suppliers_Archive')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "WWI002",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "Purchasing"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "SupplierID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SupplierName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SupplierCategoryID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PrimaryContactPersonID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "AlternateContactPersonID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DeliveryMethodID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "DeliveryCityID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "PostalCityID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "SupplierReference",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BankAccountName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BankAccountBranch",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BankAccountCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BankAccountNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "BankInternationalCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PaymentDays",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "InternalComments",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PhoneNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "FaxNumber",
-						"type": "nvarchar"
-					},
-					{
-						"name": "WebsiteURL",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DeliveryAddressLine1",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DeliveryAddressLine2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DeliveryPostalCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "DeliveryLocation",
-						"type": "geography"
-					},
-					{
-						"name": "PostalAddressLine1",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostalAddressLine2",
-						"type": "nvarchar"
-					},
-					{
-						"name": "PostalPostalCode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LastEditedBy",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ValidFrom",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "ValidTo",
-						"type": "datetime2",
-						"scale": 7
-					}
-				],
-				"typeProperties": {
-					"schema": "Purchasing",
-					"table": "Suppliers_Archive"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/WWI002')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Suppliers_ArchiveODS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ODS002",
-					"type": "LinkedServiceReference"
-				},
-				"folder": {
-					"name": "ODS"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "Purchasing",
-					"table": "SupplierCategories_Archive"
 				}
 			},
 			"dependsOn": [

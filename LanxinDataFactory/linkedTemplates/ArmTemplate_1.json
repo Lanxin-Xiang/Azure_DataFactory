@@ -13,6 +13,178 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/Suppliers_Archive')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WWI002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Purchasing"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SupplierID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupplierCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PrimaryContactPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AlternateContactPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DeliveryMethodID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DeliveryCityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PostalCityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierReference",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountBranch",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankInternationalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PaymentDays",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "InternalComments",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PhoneNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FaxNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WebsiteURL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryAddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryAddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryPostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryLocation",
+						"type": "geography"
+					},
+					{
+						"name": "PostalAddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalPostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastEditedBy",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ValidFrom",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ValidTo",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "Suppliers_Archive"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Suppliers_ArchiveODS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ODS002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "SupplierCategories_Archive"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/TableList')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -41,163 +213,6 @@
 						"value": "@dataset().table",
 						"type": "Expression"
 					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/StockItems')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "WWI002",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "StockItemID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "StockItemName",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SupplierID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ColorID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "UnitPackageID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "OuterPackageID",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "Brand",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Size",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LeadTimeDays",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "QuantityPerOuter",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "IsChillerStock",
-						"type": "bit"
-					},
-					{
-						"name": "Barcode",
-						"type": "nvarchar"
-					},
-					{
-						"name": "TaxRate",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 3
-					},
-					{
-						"name": "UnitPrice",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 2
-					},
-					{
-						"name": "RecommendedRetailPrice",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 2
-					},
-					{
-						"name": "TypicalWeightPerUnit",
-						"type": "decimal",
-						"precision": 18,
-						"scale": 3
-					},
-					{
-						"name": "MarketingComments",
-						"type": "nvarchar"
-					},
-					{
-						"name": "InternalComments",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Photo",
-						"type": "varbinary"
-					},
-					{
-						"name": "CustomFields",
-						"type": "nvarchar"
-					},
-					{
-						"name": "Tags",
-						"type": "nvarchar"
-					},
-					{
-						"name": "SearchDetails",
-						"type": "nvarchar"
-					},
-					{
-						"name": "LastEditedBy",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "ValidFrom",
-						"type": "datetime2",
-						"scale": 7
-					},
-					{
-						"name": "ValidTo",
-						"type": "datetime2",
-						"scale": 7
-					}
-				],
-				"typeProperties": {
-					"schema": "Warehouse",
-					"table": "StockItems"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Integration002",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "Integration",
-					"table": "Purchase_Staging"
 				}
 			},
 			"dependsOn": []
@@ -785,7 +800,10 @@
 				"annotations": [],
 				"lastPublishTime": "2022-12-15T15:23:17Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Suppliers_Archive')]",
+				"[concat(variables('factoryId'), '/datasets/Suppliers_ArchiveODS')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/PurchaseStaging')]",
@@ -851,9 +869,6 @@
 							"name": "join2"
 						},
 						{
-							"name": "WWIStockItemID"
-						},
-						{
 							"name": "join3"
 						},
 						{
@@ -864,6 +879,15 @@
 						},
 						{
 							"name": "derivedOrderedQuantity"
+						},
+						{
+							"name": "WWIStockItemsKey"
+						},
+						{
+							"name": "PurchaseStagingKey"
+						},
+						{
+							"name": "select7"
 						}
 					],
 					"scriptLines": [
@@ -976,9 +1000,9 @@
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> StockItems",
 						"PurchaseOrders select(mapColumn(",
-						"          PurchaseOrderID,",
-						"          SupplierKey = SupplierID,",
-						"          WWIPurchaseOrderID = Skey,",
+						"          WWIPurchaseOrderID = PurchaseOrderID,",
+						"          WWISupplierID = SupplierID,",
+						"          SupplierKey = Skey,",
 						"          OrderDate,",
 						"          LastEditedWhen,",
 						"          WWIIngestDatetime = IngestDatetime",
@@ -988,7 +1012,8 @@
 						"PurchaseOrderLines select(mapColumn(",
 						"          PurchaseOrderLineID,",
 						"          PurchaseOrderID,",
-						"          StockItemKey = StockItemID,",
+						"          WWIStockItemID = StockItemID,",
+						"          StockItemKey = Skey,",
 						"          OrderedOuters,",
 						"          ReceivedOuters,",
 						"          IsOrderLineFinalized,",
@@ -997,26 +1022,23 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select2",
 						"Suppliers select(mapColumn(",
-						"          SupplierID,",
+						"          WWISupplierID = SupplierID,",
 						"          IngestDatetime,",
-						"          WWISupplierID = Skey",
+						"          SupplierKey = Skey",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select3",
-						"select1, select2 join(select1@PurchaseOrderID == select2@PurchaseOrderID,",
+						"select1, select2 join(WWIPurchaseOrderID == PurchaseOrderID,",
 						"     joinType:'inner',",
 						"     matchType:'exact',",
 						"     ignoreSpaces: false,",
 						"     broadcast: 'auto')~> join1",
-						"join3, select3 join(SupplierKey == SupplierID,",
+						"join3, select3 join(select1@WWISupplierID == select3@WWISupplierID,",
 						"     joinType:'inner',",
 						"     matchType:'exact',",
 						"     ignoreSpaces: false,",
 						"     broadcast: 'auto')~> join2",
-						"select5 keyGenerate(output(WWIStockItemID as long),",
-						"     startAt: 1L,",
-						"     stepValue: 1L) ~> WWIStockItemID",
-						"join1, WWIStockItemID join(StockItemKey == StockItemID,",
+						"join1, WWIStockItemsKey join(WWIPurchaseOrderID == StockItemID,",
 						"     joinType:'inner',",
 						"     matchType:'exact',",
 						"     ignoreSpaces: false,",
@@ -1030,23 +1052,44 @@
 						"     skipDuplicateMapOutputs: true) ~> select5",
 						"derivedOrderedQuantity select(mapColumn(",
 						"          DateKey = OrderDate,",
-						"          SupplierKey,",
-						"          StockItemKey,",
-						"          WWIPurchaseOrderID,",
+						"          SupplierKey = select1@WWISupplierID,",
+						"          StockItemKey = WWIStockItemID,",
+						"          WWIPurchaseOrderID = select1@WWISupplierID,",
 						"          OrderedOuters,",
 						"          OrderedQuantity,",
 						"          ReceivedOuters,",
 						"          Package = OuterPackageID,",
 						"          IsOrderLineFinalized,",
-						"          QuantityPerOuter,",
-						"          WWISupplierID,",
-						"          WWIStockItemID,",
+						"          WWISupplierID = select3@SupplierKey,",
+						"          WWIStockItemID = StockItemKey,",
 						"          LastModifiedWhen = LastEditedWhen",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true) ~> select6",
 						"join2 derive(OrderedQuantity = QuantityPerOuter*OrderedOuters) ~> derivedOrderedQuantity",
-						"select6 sink(allowSchemaDrift: true,",
+						"select5 keyGenerate(output(WWIStockItemsKey as long),",
+						"     startAt: 10000L,",
+						"     stepValue: 1L) ~> WWIStockItemsKey",
+						"select6 keyGenerate(output(PurchaseStagingKey as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> PurchaseStagingKey",
+						"PurchaseStagingKey select(mapColumn(",
+						"          PurchaseStagingKey,",
+						"          DateKey,",
+						"          SupplierKey,",
+						"          StockItemKey,",
+						"          OrderedOuters,",
+						"          OrderedQuantity,",
+						"          ReceivedOuters,",
+						"          Package,",
+						"          IsOrderLineFinalized,",
+						"          WWISupplierID,",
+						"          WWIStockItemID,",
+						"          LastModifiedWhen",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select7",
+						"select7 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     deletable:false,",
 						"     insertable:true,",
@@ -1059,10 +1102,7 @@
 					]
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/StockItems')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable2')]"
-			]
+			"dependsOn": []
 		}
 	]
 }
