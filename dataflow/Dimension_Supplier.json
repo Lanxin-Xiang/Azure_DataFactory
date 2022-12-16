@@ -141,7 +141,7 @@
 				"source1 keyGenerate(output({Supplier Key} as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> SupplierKey",
-				"SupplierKey derive({Lineage Key} = toInteger(year(toDate({IngestDatetime}))) - 2013) ~> derivedLineageKey",
+				"SupplierKey derive({Lineage Key} = toInteger(year(currentDate())-year(toDate({IngestDatetime})))) ~> derivedLineageKey",
 				"join2 select(mapColumn(",
 				"          {Supplier Key},",
 				"          {WWI Supplier ID} = SupplierID,",
