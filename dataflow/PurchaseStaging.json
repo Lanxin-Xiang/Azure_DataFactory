@@ -1,0 +1,151 @@
+{
+	"name": "PurchaseStaging",
+	"properties": {
+		"description": "[Purchase Staging Key]\n      ,[Date Key]\n      ,[Supplier Key]\n      ,[Stock Item Key]\n      ,[WWI Purchase Order ID]\n      ,[Ordered Outers]\n      ,[Ordered Quantity]\n      ,[Received Outers]\n      ,[Package]\n      ,[Is Order Finalized]\n      ,[WWI Supplier ID]\n      ,[WWI Stock Item ID]\n      ,[Last Modified When]",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "PurchaseOrdersODS",
+						"type": "DatasetReference"
+					},
+					"name": "PurchaseOrders"
+				},
+				{
+					"dataset": {
+						"referenceName": "PurchaseOrderLinesODS",
+						"type": "DatasetReference"
+					},
+					"name": "PurchaseOrderLines"
+				},
+				{
+					"dataset": {
+						"referenceName": "SuppliersODS",
+						"type": "DatasetReference"
+					},
+					"name": "Suppliers"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "select1"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "select3"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          PurchaseOrderID as integer,",
+				"          SupplierID as integer,",
+				"          OrderDate as date,",
+				"          DeliveryMethodID as integer,",
+				"          ContactPersonID as integer,",
+				"          ExpectedDeliveryDate as date,",
+				"          SupplierReference as string,",
+				"          IsOrderFinalized as boolean,",
+				"          Comments as string,",
+				"          InternalComments as string,",
+				"          LastEditedBy as integer,",
+				"          LastEditedWhen as timestamp,",
+				"          IngestDatetime as string,",
+				"          Skey as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> PurchaseOrders",
+				"source(output(",
+				"          PurchaseOrderLineID as integer,",
+				"          PurchaseOrderID as integer,",
+				"          StockItemID as integer,",
+				"          OrderedOuters as integer,",
+				"          Description as string,",
+				"          ReceivedOuters as integer,",
+				"          PackageTypeID as integer,",
+				"          ExpectedUnitPricePerOuter as decimal(18,2),",
+				"          LastReceiptDate as date,",
+				"          IsOrderLineFinalized as boolean,",
+				"          LastEditedBy as integer,",
+				"          LastEditedWhen as timestamp,",
+				"          Skey as integer,",
+				"          IngestDatetime as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> PurchaseOrderLines",
+				"source(output(",
+				"          SupplierID as integer,",
+				"          SupplierName as string,",
+				"          SupplierCategoryID as integer,",
+				"          PrimaryContactPersonID as integer,",
+				"          AlternateContactPersonID as integer,",
+				"          DeliveryMethodID as integer,",
+				"          DeliveryCityID as integer,",
+				"          PostalCityID as integer,",
+				"          SupplierReference as string,",
+				"          BankAccountName as string,",
+				"          BankAccountBranch as string,",
+				"          BankAccountCode as string,",
+				"          BankAccountNumber as string,",
+				"          BankInternationalCode as string,",
+				"          PaymentDays as integer,",
+				"          InternalComments as string,",
+				"          PhoneNumber as string,",
+				"          FaxNumber as string,",
+				"          WebsiteURL as string,",
+				"          DeliveryAddressLine1 as string,",
+				"          DeliveryAddressLine2 as string,",
+				"          DeliveryPostalCode as string,",
+				"          DeliveryLocation as binary,",
+				"          PostalAddressLine1 as string,",
+				"          PostalAddressLine2 as string,",
+				"          PostalPostalCode as string,",
+				"          LastEditedBy as integer,",
+				"          ValidFrom as timestamp,",
+				"          ValidTo as timestamp,",
+				"          IngestDatetime as string,",
+				"          Skey as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> Suppliers",
+				"PurchaseOrders select(mapColumn(",
+				"          PurchaseOrderID,",
+				"          SupplierKey = SupplierID,",
+				"          WWIPurchaseOrderID = Skey,",
+				"          OrderDate,",
+				"          LastEditedWhen,",
+				"          WWIIngestDatetime = IngestDatetime",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"PurchaseOrderLines select(mapColumn(",
+				"          PurchaseOrderLineID,",
+				"          PurchaseOrderID,",
+				"          StockItemKey = StockItemID,",
+				"          OrderedOuters,",
+				"          ReceivedOuters,",
+				"          IsOrderLineFinalized,",
+				"          IngestDatetime",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"Suppliers select(mapColumn(",
+				"          SupplierID,",
+				"          IngestDatetime,",
+				"          WWISupplierID = Skey",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select3"
+			]
+		}
+	}
+}
