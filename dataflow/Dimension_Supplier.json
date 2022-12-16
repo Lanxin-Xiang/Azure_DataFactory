@@ -1,0 +1,33 @@
+{
+	"name": "Dimension_Supplier",
+	"properties": {
+		"description": "[Supplier Key]\n      ,[WWI Supplier ID]\n      ,[Supplier]\n      ,[Category]\n      ,[Primary Contact]\n      ,[Supplier Reference]\n      ,[Payment Days]\n      ,[Postal Code]\n      ,[Valid From]\n      ,[Valid To]\n      ,[Lineage Key]",
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SuppliersODS",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "surrogateKey1"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 keyGenerate(output({Supplier Key} as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1"
+			]
+		}
+	}
+}
