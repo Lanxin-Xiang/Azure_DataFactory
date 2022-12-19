@@ -63,6 +63,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "addisCurrent"
 				}
 			],
 			"scriptLines": [
@@ -184,7 +187,8 @@
 				"     broadcast: 'auto')~> join2",
 				"select1 alterRow(upsertIf(true())) ~> AlterRow1",
 				"join2 derive({Supplier Key} = toInteger({Supplier Key})) ~> derivedColumn1",
-				"AlterRow1 sink(allowSchemaDrift: true,",
+				"AlterRow1 derive(isCurrent = 1) ~> addisCurrent",
+				"addisCurrent sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          {Supplier Key} as integer,",
@@ -202,8 +206,8 @@
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:true,",
-				"     keys:['WWI Supplier ID'],",
+				"     upsertable:false,",
+				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
@@ -219,7 +223,8 @@
 				"          {Postal Code},",
 				"          {Valid From},",
 				"          {Valid To},",
-				"          {Lineage Key}",
+				"          {Lineage Key},",
+				"          isCurrent",
 				"     )) ~> sink1"
 			]
 		}
