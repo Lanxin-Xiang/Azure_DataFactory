@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTable3",
+	"name": "DimensionDate",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "WWIDB002",

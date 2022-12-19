@@ -14,7 +14,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable3",
+						"referenceName": "DimensionDate",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
