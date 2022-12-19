@@ -200,7 +200,7 @@
 				"          {Lineage Key} as integer",
 				"     ),",
 				"     deletable:false,",
-				"     insertable:true,",
+				"     insertable:false,",
 				"     updateable:false,",
 				"     upsertable:true,",
 				"     keys:['WWI Supplier ID'],",

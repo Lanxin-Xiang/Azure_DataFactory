@@ -11,6 +11,16 @@
 						"type": "DatasetReference"
 					},
 					"name": "DimensionSupplier"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable3",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"name": "source2"
 				}
 			],
 			"sinks": [
@@ -25,6 +35,12 @@
 			"transformations": [
 				{
 					"name": "select2"
+				},
+				{
+					"name": "surrogateKey1"
+				},
+				{
+					"name": "join1"
 				}
 			],
 			"scriptLines": [
@@ -45,7 +61,30 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> DimensionSupplier",
-				"DimensionSupplier select(mapColumn(",
+				"source(output(",
+				"          Date as date,",
+				"          {Day Number} as integer,",
+				"          Day as string,",
+				"          Month as string,",
+				"          {Short Month} as string,",
+				"          {Calendar Month Number} as integer,",
+				"          {Calendar Month Label} as string,",
+				"          {Calendar Year} as integer,",
+				"          {Calendar Year Label} as string,",
+				"          {Fiscal Month Number} as integer,",
+				"          {Fiscal Month Label} as string,",
+				"          {Fiscal Year} as integer,",
+				"          {Fiscal Year Label} as string,",
+				"          {ISO Week Number} as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source2",
+				"surrogateKey1 select(mapColumn(",
+				"          {Purchase Key},",
 				"          {Supplier Key},",
 				"          {WWI Supplier ID},",
 				"          Supplier,",
@@ -58,6 +97,14 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
+				"join1 keyGenerate(output({Purchase Key} as long),",
+				"     startAt: 1L,",
+				"     stepValue: 1L) ~> surrogateKey1",
+				"DimensionSupplier, source1 join({Payment Days} == ERROR_FUNCTION(''),",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
 				"select2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
@@ -80,7 +127,12 @@
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          {Purchase Key},",
+				"          {Supplier Key},",
+				"          {Lineage Key}",
+				"     )) ~> sink1"
 			]
 		}
 	}
