@@ -57,6 +57,11 @@
 				"name": "Lineage Key",
 				"type": "int",
 				"precision": 10
+			},
+			{
+				"name": "Active",
+				"type": "int",
+				"precision": 10
 			}
 		],
 		"typeProperties": {

@@ -59,13 +59,10 @@
 					"name": "join2"
 				},
 				{
-					"name": "AlterRow1"
-				},
-				{
 					"name": "derivedColumn1"
 				},
 				{
-					"name": "addisCurrent"
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -185,10 +182,9 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join2",
-				"select1 alterRow(upsertIf(true())) ~> AlterRow1",
 				"join2 derive({Supplier Key} = toInteger({Supplier Key})) ~> derivedColumn1",
-				"AlterRow1 derive(isCurrent = 1) ~> addisCurrent",
-				"addisCurrent sink(allowSchemaDrift: true,",
+				"select1 derive(Active = 1) ~> derivedColumn2",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          {Supplier Key} as integer,",
@@ -201,7 +197,8 @@
 				"          {Postal Code} as string,",
 				"          {Valid From} as timestamp,",
 				"          {Valid To} as timestamp,",
-				"          {Lineage Key} as integer",
+				"          {Lineage Key} as integer,",
+				"          Active as integer",
 				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -224,7 +221,7 @@
 				"          {Valid From},",
 				"          {Valid To},",
 				"          {Lineage Key},",
-				"          isCurrent",
+				"          Active",
 				"     )) ~> sink1"
 			]
 		}
