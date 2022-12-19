@@ -11,6 +11,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "FactPurchase",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
 				}
 			],
 			"sinks": [
@@ -34,6 +41,9 @@
 				},
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "select2"
 				}
 			],
 			"scriptLines": [
@@ -56,6 +66,23 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
+				"source(output(",
+				"          {Purchase Key} as long,",
+				"          {Date Key} as date,",
+				"          {Supplier Key} as integer,",
+				"          {Stock Item Key} as integer,",
+				"          {WWI Purchase Order ID} as integer,",
+				"          {Ordered Outers} as integer,",
+				"          {Ordered Quantity} as integer,",
+				"          {Received Outers} as integer,",
+				"          Package as string,",
+				"          {Is Order Finalized} as boolean,",
+				"          {Lineage Key} as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source2",
 				"select1 alterRow(upsertIf(true())) ~> alterRow1",
 				"source1 derive({Lineage Key} = toInteger(year(currentDate())-year({Last Modified When}))) ~> derivedLineageKey",
 				"derivedColumn1 select(mapColumn(",
@@ -74,6 +101,21 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"derivedLineageKey derive(stockitemkey = toInteger({Stock Item Key})) ~> derivedColumn1",
+				"source2 select(mapColumn(",
+				"          {Purchase Key},",
+				"          {Date Key},",
+				"          {Supplier Key},",
+				"          {Stock Item Key},",
+				"          {WWI Purchase Order ID},",
+				"          {Ordered Outers},",
+				"          {Ordered Quantity},",
+				"          {Received Outers},",
+				"          Package,",
+				"          {Is Order Finalized},",
+				"          {Lineage Key}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     input(",

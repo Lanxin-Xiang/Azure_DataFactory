@@ -30,7 +30,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTable3",
+						"referenceName": "DimensionSupplier",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
