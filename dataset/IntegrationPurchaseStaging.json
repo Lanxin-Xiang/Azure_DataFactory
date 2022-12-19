@@ -2,7 +2,7 @@
 	"name": "IntegrationPurchaseStaging",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "WWIDB002",
+			"referenceName": "Integration002",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
