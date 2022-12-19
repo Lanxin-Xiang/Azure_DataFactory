@@ -10,21 +10,21 @@
 						"referenceName": "SuppliersODS",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "SuppliersODS"
 				},
 				{
 					"dataset": {
 						"referenceName": "SupplierCategories",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "SupplierCategories"
 				},
 				{
 					"dataset": {
 						"referenceName": "AzureSqlTable2",
 						"type": "DatasetReference"
 					},
-					"name": "source3"
+					"name": "People"
 				}
 			],
 			"sinks": [
@@ -102,7 +102,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
+				"     format: 'table') ~> SuppliersODS",
 				"source(output(",
 				"          SupplierCategoryID as integer,",
 				"          SupplierCategoryName as string,",
@@ -113,7 +113,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source2",
+				"     format: 'table') ~> SupplierCategories",
 				"source(output(",
 				"          PersonID as integer,",
 				"          FullName as string,",
@@ -140,8 +140,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source3",
-				"source1 keyGenerate(output({Supplier Key} as long),",
+				"     format: 'table') ~> People",
+				"SuppliersODS keyGenerate(output({Supplier Key} as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> SupplierKey",
 				"SupplierKey derive({Lineage Key} = toInteger(year(currentTimestamp())-year({ValidFrom}))) ~> derivedLineageKey",
@@ -160,18 +160,18 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"source2 select(mapColumn(",
+				"SupplierCategories select(mapColumn(",
 				"          SupplierCategoryID,",
 				"          SupplierCategoryName",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
-				"derivedLineageKey, select2 join(source1@SupplierCategoryID == select2@SupplierCategoryID,",
+				"derivedLineageKey, select2 join(SuppliersODS@SupplierCategoryID == select2@SupplierCategoryID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"source3 select(mapColumn(",
+				"People select(mapColumn(",
 				"          PersonID,",
 				"          FullName",
 				"     ),",
@@ -203,7 +203,7 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:true,",
-				"     keys:['Supplier'],",
+				"     keys:['WWI Supplier ID'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",

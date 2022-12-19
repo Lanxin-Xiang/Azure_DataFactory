@@ -7,17 +7,10 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Purchase_Staging",
+						"referenceName": "DimensionSupplier",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
-				},
-				{
-					"dataset": {
-						"referenceName": "FactPurchase",
-						"type": "DatasetReference"
-					},
-					"name": "source2"
+					"name": "DimensionSupplier"
 				}
 			],
 			"sinks": [
@@ -26,98 +19,47 @@
 						"referenceName": "FactPurchase",
 						"type": "DatasetReference"
 					},
-					"name": "FactPurchase"
+					"name": "sink1"
 				}
 			],
 			"transformations": [
-				{
-					"name": "alterRow1"
-				},
-				{
-					"name": "derivedLineageKey"
-				},
-				{
-					"name": "select1"
-				},
-				{
-					"name": "derivedColumn1"
-				},
 				{
 					"name": "select2"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
-				"          {Purchase Staging Key} as long,",
-				"          {Date Key} as date,",
-				"          {Supplier Key} as string,",
-				"          {Stock Item Key} as long,",
-				"          {WWI Purchase Order ID} as integer,",
-				"          {Ordered Outers} as integer,",
-				"          {Ordered Quantity} as integer,",
-				"          {Received Outers} as integer,",
-				"          Package as string,",
-				"          {Is Order Finalized} as boolean,",
-				"          {WWI Supplier ID} as integer,",
-				"          {WWI Stock Item ID} as integer,",
-				"          {Last Modified When} as timestamp",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"source(output(",
-				"          {Purchase Key} as long,",
-				"          {Date Key} as date,",
 				"          {Supplier Key} as integer,",
-				"          {Stock Item Key} as integer,",
-				"          {WWI Purchase Order ID} as integer,",
-				"          {Ordered Outers} as integer,",
-				"          {Ordered Quantity} as integer,",
-				"          {Received Outers} as integer,",
-				"          Package as string,",
-				"          {Is Order Finalized} as boolean,",
+				"          {WWI Supplier ID} as integer,",
+				"          Supplier as string,",
+				"          Category as string,",
+				"          {Primary Contact} as string,",
+				"          {Supplier Reference} as string,",
+				"          {Payment Days} as integer,",
+				"          {Postal Code} as string,",
+				"          {Valid From} as timestamp,",
+				"          {Valid To} as timestamp,",
 				"          {Lineage Key} as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source2",
-				"select1 alterRow(upsertIf(true())) ~> alterRow1",
-				"source1 derive({Lineage Key} = toInteger(year(currentDate())-year({Last Modified When}))) ~> derivedLineageKey",
-				"derivedColumn1 select(mapColumn(",
-				"          {Purchase Key} = {Purchase Staging Key},",
-				"          {Date Key},",
+				"     format: 'table') ~> DimensionSupplier",
+				"DimensionSupplier select(mapColumn(",
 				"          {Supplier Key},",
-				"          {Stock Item Key} = stockitemkey,",
-				"          {WWI Purchase Order ID},",
-				"          {Ordered Outers},",
-				"          {Ordered Quantity},",
-				"          {Received Outers},",
-				"          Package,",
-				"          {Is Order Finalized},",
-				"          {Lineage Key}",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"derivedLineageKey derive(stockitemkey = toInteger({Stock Item Key})) ~> derivedColumn1",
-				"source2 select(mapColumn(",
-				"          {Purchase Key},",
-				"          {Date Key},",
-				"          {Supplier Key},",
-				"          {Stock Item Key},",
-				"          {WWI Purchase Order ID},",
-				"          {Ordered Outers},",
-				"          {Ordered Quantity},",
-				"          {Received Outers},",
-				"          Package,",
-				"          {Is Order Finalized},",
+				"          {WWI Supplier ID},",
+				"          Supplier,",
+				"          Category,",
+				"          {Primary Contact},",
+				"          {Supplier Reference},",
+				"          {Payment Days},",
+				"          {Postal Code},",
 				"          {Lineage Key}",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
-				"alterRow1 sink(allowSchemaDrift: true,",
-				"     validateSchema: true,",
+				"select2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
 				"     input(",
 				"          {Purchase Key} as long,",
 				"          {Date Key} as date,",
@@ -132,27 +74,13 @@
 				"          {Lineage Key} as integer",
 				"     ),",
 				"     deletable:false,",
-				"     insertable:false,",
+				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:true,",
-				"     keys:['Supplier Key'],",
+				"     upsertable:false,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          {Purchase Key},",
-				"          {Date Key},",
-				"          {Supplier Key},",
-				"          {Stock Item Key},",
-				"          {WWI Purchase Order ID},",
-				"          {Ordered Outers},",
-				"          {Ordered Quantity},",
-				"          {Received Outers},",
-				"          Package,",
-				"          {Is Order Finalized},",
-				"          {Lineage Key}",
-				"     )) ~> FactPurchase"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
