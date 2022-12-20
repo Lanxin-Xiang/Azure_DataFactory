@@ -68,6 +68,10 @@
 				"name": "Last Modified When",
 				"type": "datetime2",
 				"scale": 7
+			},
+			{
+				"name": "IngestDatetime",
+				"type": "nvarchar"
 			}
 		],
 		"typeProperties": {
