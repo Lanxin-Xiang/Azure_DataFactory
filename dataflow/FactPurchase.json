@@ -60,6 +60,9 @@
 				},
 				{
 					"name": "surrogateKey1"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -74,7 +77,8 @@
 				"          {Postal Code} as string,",
 				"          {Valid From} as timestamp,",
 				"          {Valid To} as timestamp,",
-				"          {Lineage Key} as integer",
+				"          {Lineage Key} as integer,",
+				"          Active as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
@@ -161,7 +165,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select3",
-				"DimensionSupplier, select3 join(DimensionSupplier@{WWI Supplier ID} == select3@{WWI Supplier ID},",
+				"filter1, select3 join(DimensionSupplier@{WWI Supplier ID} == select3@{WWI Supplier ID}",
+				"     && ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
@@ -193,6 +198,7 @@
 				"IntegrationStockItemStaging keyGenerate(output({Stock Item Staging Key} as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> surrogateKey1",
+				"DimensionSupplier filter(Active == 1) ~> filter1",
 				"alterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
