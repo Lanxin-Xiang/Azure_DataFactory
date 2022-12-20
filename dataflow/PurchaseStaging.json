@@ -290,7 +290,7 @@
 				"     skipDuplicateMapOutputs: true) ~> select7",
 				"StockItems derive(Package = toString(OuterPackageID)) ~> derivedColumn1",
 				"derivedColumn2 alterRow(upsertIf(true())) ~> AlterRow1",
-				"select7 derive(IntegrationDatetime = currentTimestamp()) ~> derivedColumn2",
+				"select7 derive(IngestDatetime = currentTimestamp()) ~> derivedColumn2",
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     deletable:false,",
@@ -316,7 +316,7 @@
 				"          {WWI Supplier ID},",
 				"          {WWI Stock Item ID},",
 				"          {Last Modified When},",
-				"          IntegrationDatetime",
+				"          IntegrationDatetime = IngestDatetime",
 				"     )) ~> sinkPurchaseStaging"
 			]
 		}
