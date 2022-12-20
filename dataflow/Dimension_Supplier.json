@@ -25,6 +25,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "People"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimensionSupplier",
+						"type": "DatasetReference"
+					},
+					"name": "DimensionSupplier"
 				}
 			],
 			"sinks": [
@@ -34,6 +41,13 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DimensionSupplier",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
 				}
 			],
 			"transformations": [
@@ -63,6 +77,24 @@
 				},
 				{
 					"name": "derivedColumn2"
+				},
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "ExistingRows"
+				},
+				{
+					"name": "select4"
+				},
+				{
+					"name": "derivedColumn3"
+				},
+				{
+					"name": "alterRow1"
+				},
+				{
+					"name": "AlterRow2"
 				}
 			],
 			"scriptLines": [
@@ -141,6 +173,24 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> People",
+				"source(output(",
+				"          {Supplier Key} as integer,",
+				"          {WWI Supplier ID} as integer,",
+				"          Supplier as string,",
+				"          Category as string,",
+				"          {Primary Contact} as string,",
+				"          {Supplier Reference} as string,",
+				"          {Payment Days} as integer,",
+				"          {Postal Code} as string,",
+				"          {Valid From} as timestamp,",
+				"          {Valid To} as timestamp,",
+				"          {Lineage Key} as integer,",
+				"          Active as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> DimensionSupplier",
 				"SuppliersODS keyGenerate(output({Supplier Key} as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> SupplierKey",
@@ -184,7 +234,32 @@
 				"     broadcast: 'auto')~> join2",
 				"join2 derive({Supplier Key} = toInteger({Supplier Key})) ~> derivedColumn1",
 				"select1 derive(Active = 1) ~> derivedColumn2",
-				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"select1, select4 lookup(WWISupplierID == {sinked WWI Supplier ID},",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1 filter(!isNull({sinked WWI Supplier ID}) && {sinked Active} == 1 && {Valid From} > {sinked Valid From}) ~> ExistingRows",
+				"DimensionSupplier select(mapColumn(",
+				"          {sinked Supplier Key} = {Supplier Key},",
+				"          {sinked WWI Supplier ID} = {WWI Supplier ID},",
+				"          {sinked Supplier} = Supplier,",
+				"          {sinked Category} = Category,",
+				"          {sinked Primary Contact} = {Primary Contact},",
+				"          {sinked Supplier Reference} = {Supplier Reference},",
+				"          {sinked Payment Days} = {Payment Days},",
+				"          {sinked Postal Code} = {Postal Code},",
+				"          {sinked Valid From} = {Valid From},",
+				"          {sinked Valid To} = {Valid To},",
+				"          {sinked Lineage Key} = {Lineage Key},",
+				"          {sinked Active} = Active",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select4",
+				"ExistingRows derive({sinked Active} = 0,",
+				"          {sinked Valid To} = {Valid From}) ~> derivedColumn3",
+				"derivedColumn3 alterRow(updateIf(true())) ~> alterRow1",
+				"derivedColumn2 alterRow(upsertIf(true())) ~> AlterRow2",
+				"AlterRow2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
 				"          {Supplier Key} as integer,",
@@ -203,8 +278,8 @@
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:false,",
-				"     recreate:true,",
+				"     upsertable:true,",
+				"     keys:['Supplier Key'],",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
@@ -222,7 +297,45 @@
 				"          {Valid To},",
 				"          {Lineage Key},",
 				"          Active",
-				"     )) ~> sink1"
+				"     )) ~> sink1",
+				"alterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          {Supplier Key} as integer,",
+				"          {WWI Supplier ID} as integer,",
+				"          Supplier as string,",
+				"          Category as string,",
+				"          {Primary Contact} as string,",
+				"          {Supplier Reference} as string,",
+				"          {Payment Days} as integer,",
+				"          {Postal Code} as string,",
+				"          {Valid From} as timestamp,",
+				"          {Valid To} as timestamp,",
+				"          {Lineage Key} as integer,",
+				"          Active as integer",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['Supplier Key'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          {Supplier Key} = {sinked Supplier Key},",
+				"          {WWI Supplier ID} = {sinked WWI Supplier ID},",
+				"          Category = {sinked Category},",
+				"          {Primary Contact} = {sinked Primary Contact},",
+				"          {Supplier Reference} = {sinked Supplier Reference},",
+				"          {Payment Days} = {sinked Payment Days},",
+				"          {Postal Code} = {sinked Postal Code},",
+				"          {Valid From} = {sinked Valid From},",
+				"          {Valid To} = {sinked Valid To},",
+				"          {Lineage Key} = {sinked Lineage Key},",
+				"          Active = {sinked Active}",
+				"     )) ~> sink2"
 			]
 		}
 	}
