@@ -332,7 +332,7 @@
 				"          {WWI Supplier ID},",
 				"          {WWI Stock Item ID},",
 				"          {Last Modified When},",
-				"          IntegrationDatetime = IngestDatetime",
+				"          IngestDatetime",
 				"     )) ~> sinkPurchaseStaging"
 			]
 		}

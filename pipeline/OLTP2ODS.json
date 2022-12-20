@@ -183,7 +183,7 @@
 											}
 										],
 										"type": "Query",
-										"text": "set @SQLQuery = 'delete from ' + @schema + '.' + @table + ' where  CAST(IngestDatetime AS DATE) < DATEADD(day, -1, Getdate())';\n\nEXECUTE sp_executesql @SQLQuery"
+										"text": "set @SQLQuery = 'delete from ' + @schema + '.' + @table + ' where  CAST(IngestDatetime AS DATE) < DATEADD(day, -7, Getdate())';\n\nEXECUTE sp_executesql @SQLQuery"
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
