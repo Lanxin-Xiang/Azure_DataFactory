@@ -85,6 +85,9 @@
 				},
 				{
 					"name": "AlterRow1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -286,18 +289,35 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select7",
 				"StockItems derive(Package = toString(OuterPackageID)) ~> derivedColumn1",
-				"select7 alterRow(upsertIf(true())) ~> AlterRow1",
+				"derivedColumn2 alterRow(upsertIf(true())) ~> AlterRow1",
+				"select7 derive(IntegrationDatetime = currentTimestamp()) ~> derivedColumn2",
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     deletable:false,",
-				"     insertable:false,",
+				"     insertable:true,",
 				"     updateable:false,",
-				"     upsertable:true,",
-				"     keys:['WWI Supplier ID'],",
+				"     upsertable:false,",
+				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sinkPurchaseStaging"
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          {Purchase Staging Key},",
+				"          {Date Key},",
+				"          {Supplier Key},",
+				"          {Stock Item Key},",
+				"          {WWI Purchase Order ID},",
+				"          {Ordered Outers},",
+				"          {Ordered Quantity},",
+				"          {Received Outers},",
+				"          Package,",
+				"          {Is Order Finalized},",
+				"          {WWI Supplier ID},",
+				"          {WWI Stock Item ID},",
+				"          {Last Modified When},",
+				"          IntegrationDatetime",
+				"     )) ~> sinkPurchaseStaging"
 			]
 		}
 	}

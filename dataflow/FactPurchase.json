@@ -161,7 +161,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select3",
-				"DimensionSupplier, select3 join(DimensionSupplier@{Supplier Key} == select3@{WWI Supplier ID},",
+				"DimensionSupplier, select3 join(DimensionSupplier@{WWI Supplier ID} == select3@{WWI Supplier ID},",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
