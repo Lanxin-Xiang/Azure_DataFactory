@@ -49,7 +49,14 @@
 						{
 							"name": "Copy data1",
 							"type": "Copy",
-							"dependsOn": [],
+							"dependsOn": [
+								{
+									"activity": "Script1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -91,13 +98,7 @@
 								},
 								"sink": {
 									"type": "AzureSqlSink",
-									"writeBehavior": "upsert",
-									"upsertSettings": {
-										"useTempDB": true,
-										"keys": [
-											"Skey"
-										]
-									},
+									"writeBehavior": "insert",
 									"sqlWriterUseTableLock": false,
 									"tableOption": "autoCreate",
 									"disableMetricsCollection": false
@@ -141,6 +142,99 @@
 									}
 								}
 							]
+						},
+						{
+							"name": "Script1",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "ODS002",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"parameters": [
+											{
+												"name": "schema",
+												"type": "String",
+												"value": "@item().table_schema",
+												"direction": "Input"
+											},
+											{
+												"name": "table",
+												"type": "String",
+												"value": "@item().table_name",
+												"direction": "Input"
+											},
+											{
+												"name": "SQLQuery",
+												"type": "String",
+												"value": "",
+												"direction": "Input"
+											}
+										],
+										"type": "Query",
+										"text": "set @SQLQuery = 'delete from ' + @schema + '.' + @table + ' where  CAST(IngestDatetime AS DATE) < DATEADD(day, -1, Getdate())';\n\nEXECUTE sp_executesql @SQLQuery"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
+						},
+						{
+							"name": "Script2",
+							"type": "Script",
+							"dependsOn": [
+								{
+									"activity": "Copy data1",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "ODS002",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"parameters": [
+											{
+												"name": "schema",
+												"type": "String",
+												"value": "@item().table_schema",
+												"direction": "Input"
+											},
+											{
+												"name": "table",
+												"type": "String",
+												"value": "@item().table_name",
+												"direction": "Input"
+											}
+										],
+										"type": "Query",
+										"text": "insert into dbo.DeleteLog ([Table Name], [Delete Table pk], [Complete Date])\nvalues(@schema+'.'+@table, 'Skey',  Getdate())"
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00"
+							}
 						}
 					]
 				}
