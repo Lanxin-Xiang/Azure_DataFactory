@@ -158,7 +158,7 @@
 				"typeProperties": {
 					"variableName": "LastModifiedDT",
 					"value": {
-						"value": "@activity('Script1').output.",
+						"value": "@activity('Script1').output.outputParameters.LastModifiedDT",
 						"type": "Expression"
 					}
 				}

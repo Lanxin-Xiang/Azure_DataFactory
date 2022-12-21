@@ -91,6 +91,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     LMDT as string ($LMDT)",
+				"}",
 				"source(output(",
 				"          PurchaseOrderID as integer,",
 				"          SupplierID as integer,",

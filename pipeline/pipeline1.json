@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "PurchaseStaging",
-				"type": "ExecuteDataFlow",
+				"name": "Script1",
+				"type": "Script",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -14,19 +14,54 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "PurchaseStaging",
-						"type": "DataFlowReference"
-					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
-					},
-					"traceLevel": "Fine"
+					"scripts": [
+						{
+							"parameters": [
+								{
+									"name": "LastModifiedDT",
+									"type": "Datetime",
+									"value": "",
+									"direction": "Output"
+								}
+							],
+							"type": "Query",
+							"text": "select @LastModifiedDT = [Last Trigger Datetime] from dbo.MasterTab"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set LMDT",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LMDT",
+					"value": {
+						"value": "@activity('Script1').output.outputParameters.LastModifiedDT",
+						"type": "Expression"
+					}
 				}
 			}
 		],
+		"variables": {
+			"LMDT": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
