@@ -7,7 +7,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "DeleteData",
+						"activity": "Set LMDT",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -101,10 +101,77 @@
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
 				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "DeleteData",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"parameters": [
+								{
+									"name": "LastModifiedDT",
+									"type": "Datetime",
+									"value": "",
+									"direction": "Output"
+								}
+							],
+							"type": "Query",
+							"text": "select @LastModifiedDT = [Last Trigger Datetime] from dbo.MasterTab"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set LMDT",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LastModifiedDT",
+					"value": {
+						"value": "@activity('Script1').output.",
+						"type": "Expression"
+					}
+				}
 			}
 		],
 		"variables": {
 			"LastModifyDate": {
+				"type": "String"
+			},
+			"LastModifiedDT": {
+				"type": "String"
+			},
+			"LMDT": {
 				"type": "String"
 			}
 		},
