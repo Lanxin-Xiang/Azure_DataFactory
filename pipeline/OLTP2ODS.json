@@ -166,24 +166,48 @@
 											{
 												"name": "schema",
 												"type": "String",
-												"value": "@item().table_schema",
+												"value": {
+													"value": "@item().table_schema",
+													"type": "Expression"
+												},
 												"direction": "Input"
 											},
 											{
 												"name": "table",
 												"type": "String",
-												"value": "@item().table_name",
+												"value": {
+													"value": "@item().table_name",
+													"type": "Expression"
+												},
 												"direction": "Input"
 											},
 											{
-												"name": "SQLQuery",
+												"name": "InsertQuery",
+												"type": "String",
+												"value": "",
+												"direction": "Input"
+											},
+											{
+												"name": "tablename",
+												"type": "String",
+												"value": "@schema+'.'+@table",
+												"direction": "Input"
+											},
+											{
+												"name": "DelQuery",
+												"type": "String",
+												"value": "",
+												"direction": "Input"
+											},
+											{
+												"name": "condition",
 												"type": "String",
 												"value": "",
 												"direction": "Input"
 											}
 										],
 										"type": "Query",
-										"text": "set @SQLQuery = 'delete from ' + @schema + '.' + @table + ' where  CAST(IngestDatetime AS DATE) < DATEADD(day, -7, Getdate())';\n\nEXECUTE sp_executesql @SQLQuery"
+										"text": "set @condition =  'CAST(IngestDatetime AS DATE) < DATEADD(day, -7, Getdate())'\n\nset @InsertQuery = 'Insert into dbo.DeleteLog ([Table Name], [Delete Table pk], [Complete Date]) select '''+@tablename+''' as [Table Name], Skey, Getdate() as [Complete Date] from '+@tablename+' where '+@condition\nset @DelQuery = 'delete from ' + @tablename + ' where '+ @condition\n\nEXECUTE sp_executesql @InsertQuery\nEXECUTE sp_executesql @DelQuery"
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
@@ -209,28 +233,14 @@
 							},
 							"userProperties": [],
 							"linkedServiceName": {
-								"referenceName": "ODS002",
+								"referenceName": "Integration002",
 								"type": "LinkedServiceReference"
 							},
 							"typeProperties": {
 								"scripts": [
 									{
-										"parameters": [
-											{
-												"name": "schema",
-												"type": "String",
-												"value": "@item().table_schema",
-												"direction": "Input"
-											},
-											{
-												"name": "table",
-												"type": "String",
-												"value": "@item().table_name",
-												"direction": "Input"
-											}
-										],
 										"type": "Query",
-										"text": "insert into dbo.DeleteLog ([Table Name], [Delete Table pk], [Complete Date])\nvalues(@schema+'.'+@table, 'Skey',  Getdate())"
+										"text": "insert into dbo.MasterTab ([Pipline Name], [Complete Date]) values('OLTP2ODS',  Getdate())"
 									}
 								],
 								"scriptBlockExecutionTimeout": "02:00:00"
