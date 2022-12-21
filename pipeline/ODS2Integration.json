@@ -7,7 +7,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "Script1",
+						"activity": "Script3",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -20,7 +20,6 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
-				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "PurchaseStaging",
@@ -31,53 +30,6 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
-				}
-			},
-			{
-				"name": "Script2",
-				"type": "Script",
-				"dependsOn": [
-					{
-						"activity": "PurchaseStaging",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"timeout": "0.12:00:00",
-					"retry": 0,
-					"retryIntervalInSeconds": 30,
-					"secureOutput": false,
-					"secureInput": false
-				},
-				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "Integration002",
-					"type": "LinkedServiceReference"
-				},
-				"typeProperties": {
-					"scripts": [
-						{
-							"parameters": [
-								{
-									"name": "schema",
-									"type": "String",
-									"value": "Integration",
-									"direction": "Input"
-								},
-								{
-									"name": "table",
-									"type": "String",
-									"value": "Purchase_Staging",
-									"direction": "Input"
-								}
-							],
-							"type": "Query",
-							"text": "insert into dbo.DeleteLog ([Table Name], [Delete Table pk], [Complete Date])\nvalues(@schema+'.'+@table, 'Purchase Staging Key',  Getdate())"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			},
 			{
@@ -145,6 +97,80 @@
 							],
 							"type": "Query",
 							"text": "set @condition =  'CAST(IngestDatetime AS DATE) < DATEADD(day, -30, Getdate())'\n\nset @InsertQuery = 'Insert into dbo.DeleteLog ([Table Name], [Delete Table pk], [Complete Date]) select '''+@tablename+''' as [Table Name], Purchase Staging Key, Getdate() as [Complete Date] from '+@tablename+' where '+@condition\nset @DelQuery = 'delete from ' + @tablename + ' where '+ @condition\n\nEXECUTE sp_executesql @InsertQuery\nEXECUTE sp_executesql @DelQuery"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script2",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "PurchaseStaging",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "insert into dbo.MasterTab ([Pipline Name], [Complete Date]) values('ODS2Integration',  Getdate())"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Script3",
+				"type": "Script",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"parameters": [
+								{
+									"name": "LastModifiedDate",
+									"type": "Datetime",
+									"value": "",
+									"direction": "Output"
+								}
+							],
+							"type": "Query",
+							"text": "Set @LastModifiedDate =  (select top 1 max([Complete Date]) from dbo.MasterTab where [Pipline Name] = 'ODS2Integration'"
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
