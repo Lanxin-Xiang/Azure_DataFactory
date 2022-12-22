@@ -23,18 +23,12 @@
 			],
 			"transformations": [
 				{
-					"name": "filter1"
-				},
-				{
 					"name": "select1"
-				},
-				{
-					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
 				"parameters{",
-				"     LMDT as timestamp (toTimestamp('2012/04/01','yyyy/MM/dd'))",
+				"     LMDF as string",
 				"}",
 				"source(output(",
 				"          PurchaseOrderLineID as integer,",
@@ -53,10 +47,10 @@
 				"          IngestDatetime as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     validateSchema: true,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
-				"derivedColumn1 filter( toTimestamp(((left(IngestDatetime, 23)) + 'Z'), 'yyyy-MM-dd\\'T\\'hh:mm:ss.SSS\\'Z\\'') > $LMDT) ~> filter1",
+				"     query: '\\n\\nselect * from Purchasing.PurchaseOrderLines\\nwhere IngestDatetime >  ',",
+				"     format: 'query') ~> source1",
 				"source1 select(mapColumn(",
 				"          PurchaseOrderLineID,",
 				"          PurchaseOrderID,",
@@ -64,12 +58,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(TS = toTimestamp(left(IngestDatetime, 10)+substring(IngestDatetime, 12, 8), 'yyyy-MM-ddhh:mm:ss')\r",
-				"\r",
-				"\r",
-				"/* 2022-12-20T20:49:07.8951291Z */,",
-				"          LMDT = toTimestamp('2012-04-01', 'yyyy-MM-dd')) ~> derivedColumn1",
-				"filter1 sink(allowSchemaDrift: true,",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
