@@ -20,10 +20,14 @@
 					"secureOutput": false,
 					"secureInput": false
 				},
+				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "PurchaseStaging",
-						"type": "DataFlowReference"
+						"referenceName": "StagingPurchase",
+						"type": "DataFlowReference",
+						"parameters": {
+							"LMDT": "$LMDT"
+						}
 					},
 					"compute": {
 						"coreCount": 8,
@@ -79,7 +83,10 @@
 								{
 									"name": "tablename",
 									"type": "String",
-									"value": "@schema+'.'+@table",
+									"value": {
+										"value": "@schema+'.'+@table",
+										"type": "Expression"
+									},
 									"direction": "Input"
 								},
 								{
