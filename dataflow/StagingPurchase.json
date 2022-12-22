@@ -292,7 +292,7 @@
 				"PurchaseOrders filter(toTimestamp(IngestDatetime) > $LastModifiedDT) ~> filter1",
 				"PurchaseOrderLines filter(toTimestamp(IngestDatetime) > $LastModifiedDT) ~> filter2",
 				"Suppliers filter(toTimestamp(IngestDatetime) > $LastModifiedDT) ~> filter3",
-				"StockItemsStaging filter(toTimestamp(IngestDatetime) > $LastModifiedDT) ~> filter4",
+				"StockItemsStaging filter(IngestDatetime > $LastModifiedDT) ~> filter4",
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     input(",
