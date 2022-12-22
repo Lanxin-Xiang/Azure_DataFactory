@@ -1,0 +1,81 @@
+{
+	"name": "DeleteData",
+	"properties": {
+		"activities": [
+			{
+				"name": "DeleteData",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"parameters": [
+								{
+									"name": "schema",
+									"type": "String",
+									"value": {
+										"value": "Integration",
+										"type": "Expression"
+									},
+									"direction": "Input"
+								},
+								{
+									"name": "table",
+									"type": "String",
+									"value": {
+										"value": "Purchase_Staging",
+										"type": "Expression"
+									},
+									"direction": "Input"
+								},
+								{
+									"name": "InsertQuery",
+									"type": "String",
+									"value": "",
+									"direction": "Input"
+								},
+								{
+									"name": "tablename",
+									"type": "String",
+									"value": {
+										"value": "@schema+'.'+@table",
+										"type": "Expression"
+									},
+									"direction": "Input"
+								},
+								{
+									"name": "DelQuery",
+									"type": "String",
+									"value": "",
+									"direction": "Input"
+								},
+								{
+									"name": "condition",
+									"type": "String",
+									"value": "",
+									"direction": "Input"
+								}
+							],
+							"type": "Query",
+							"text": "set @tablename = @schema+'.'+@table\nset @condition =  'CAST(IngestDatetime AS DATE) < DATEADD(day, -30, Getdate())'\n\nset @InsertQuery = 'Insert into dbo.DeleteLog ([Table Name], [Delete Table pk], [Complete Date]) select '''+@tablename+''' as [Table Name], Purchase Staging Key, Getdate() as [Complete Date] from '+@tablename+' where '+@condition\nset @DelQuery = 'delete from ' + @tablename + ' where '+ @condition\n\nEXECUTE sp_executesql @InsertQuery\nEXECUTE sp_executesql @DelQuery"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"annotations": []
+	}
+}

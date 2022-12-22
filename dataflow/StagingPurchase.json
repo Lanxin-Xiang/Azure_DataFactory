@@ -98,7 +98,7 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     LMDT as string",
+				"     LMDT as timestamp",
 				"}",
 				"source(output(",
 				"          PurchaseOrderID as integer,",
@@ -292,7 +292,7 @@
 				"PurchaseOrders filter(IngestDatetime > $LMDT) ~> filter1",
 				"PurchaseOrderLines filter(IngestDatetime > $LMDT) ~> filter2",
 				"Suppliers filter(IngestDatetime > $LMDT) ~> filter3",
-				"StockItemsStaging filter(IngestDatetime > $LMDT) ~> filter4",
+				"StockItemsStaging filter(IngestDatetime > toTimestamp($LMDT)) ~> filter4",
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     input(",
