@@ -98,6 +98,9 @@
 				}
 			],
 			"scriptLines": [
+				"parameters{",
+				"     LMDT as timestamp",
+				"}",
 				"source(output(",
 				"          SupplierID as integer,",
 				"          SupplierName as string,",

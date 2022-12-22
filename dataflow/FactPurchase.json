@@ -20,10 +20,6 @@
 					"name": "IntegrationStockItemStaging"
 				},
 				{
-					"dataset": {
-						"referenceName": "IntegrationPurchaseStaging",
-						"type": "DatasetReference"
-					},
 					"name": "IntegrationPurchaseStaging"
 				}
 			],
@@ -131,9 +127,7 @@
 				"          {Last Modified When} as timestamp",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> IntegrationPurchaseStaging",
+				"     validateSchema: false) ~> IntegrationPurchaseStaging",
 				"join2 select(mapColumn(",
 				"          {Date Key},",
 				"          {Supplier Key} = DimensionSupplier@{Supplier Key},",

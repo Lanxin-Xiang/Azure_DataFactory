@@ -5,7 +5,14 @@
 			{
 				"name": "Dimension_Supplier",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set LMDT",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -17,7 +24,13 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "Dimension_Supplier",
-						"type": "DataFlowReference"
+						"type": "DataFlowReference",
+						"parameters": {
+							"LMDT": {
+								"value": "@variables('LMDT')",
+								"type": "Expression"
+							}
+						}
 					},
 					"compute": {
 						"coreCount": 8,
@@ -25,8 +38,67 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"parameters": [
+								{
+									"name": "LastModifiedDT",
+									"type": "Datetime",
+									"value": "",
+									"direction": "Output"
+								}
+							],
+							"type": "Query",
+							"text": "select @LastModifiedDT = [Last Trigger Datetime] from dbo.MasterTab"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set LMDT",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Script1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "LMDT",
+					"value": {
+						"value": "@activity('Script1').output.outputParameters.LastModifiedDT",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"variables": {
+			"LMDT": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }

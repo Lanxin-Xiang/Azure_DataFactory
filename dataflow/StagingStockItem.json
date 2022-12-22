@@ -15,6 +15,10 @@
 			],
 			"sinks": [
 				{
+					"dataset": {
+						"referenceName": "IntegrationStockItemsStaging",
+						"type": "DatasetReference"
+					},
 					"name": "sink1"
 				}
 			],
@@ -92,9 +96,33 @@
 				"select1 derive(Package = toString({Package})) ~> derivedColumn1",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          {Stock Item Staging Key} as long,",
+				"          {WWI Stock Item ID} as integer,",
+				"          {Stock Item} as string,",
+				"          Color as integer,",
+				"          Package as string,",
+				"          Brand as string,",
+				"          Size as string,",
+				"          {Lead Time Days} as integer,",
+				"          {Quantity Per Outer} as integer,",
+				"          {Is Chiller Stock} as boolean,",
+				"          Barcode as string,",
+				"          TaxRate as decimal(18,3),",
+				"          UnitPrice as decimal(18,2),",
+				"          {Recommended Retail Price} as decimal(18,2),",
+				"          {Typical Weight Per Unit} as decimal(18,3),",
+				"          Photo as binary,",
+				"          IngestDatetime as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     format: 'table') ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
