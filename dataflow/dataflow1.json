@@ -27,11 +27,14 @@
 				},
 				{
 					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
 				"parameters{",
-				"     LMDT as timestamp",
+				"     LMDT as timestamp (toTimestamp('2012/04/01','yyyy/MM/dd'))",
 				"}",
 				"source(output(",
 				"          PurchaseOrderLineID as integer,",
@@ -53,7 +56,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
-				"select1 filter(toTimestamp(IngestDatetime) > $LMDT) ~> filter1",
+				"derivedColumn1 filter( toTimestamp(((left(IngestDatetime, 23)) + 'Z'), 'yyyy-MM-dd\\'T\\'hh:mm:ss.SSS\\'Z\\'') > $LMDT) ~> filter1",
 				"source1 select(mapColumn(",
 				"          PurchaseOrderLineID,",
 				"          PurchaseOrderID,",
@@ -61,6 +64,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 derive(TS = ERROR_FUNCTION('(left(IngestDatetime, 19)__NEW_LINE_R____NEW_LINE_N__/* toTimestamp((left(IngestDatetime, 19)), __SINGLE_QUOTE__yyyy-MM-dd\\__SINGLE_QUOTE__T\\__SINGLE_QUOTE__hh:mm:ss__SINGLE_QUOTE__) */__NEW_LINE_R____NEW_LINE_N____NEW_LINE_R____NEW_LINE_N____NEW_LINE_R____NEW_LINE_N__/* 2022-12-20T20:49:07.8951291Z */'),",
+				"          LMDT = toTimestamp('2012-04-01', 'yyyy-MM-dd')) ~> derivedColumn1",
 				"filter1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
