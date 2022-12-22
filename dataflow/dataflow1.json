@@ -1,0 +1,68 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "PurchaseOrderLinesODS",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "temp",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "filter1"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     LMDT as timestamp",
+				"}",
+				"source(output(",
+				"          PurchaseOrderLineID as integer,",
+				"          PurchaseOrderID as integer,",
+				"          StockItemID as integer,",
+				"          OrderedOuters as integer,",
+				"          Description as string,",
+				"          ReceivedOuters as integer,",
+				"          PackageTypeID as integer,",
+				"          ExpectedUnitPricePerOuter as decimal(18,2),",
+				"          LastReceiptDate as date,",
+				"          IsOrderLineFinalized as boolean,",
+				"          LastEditedBy as integer,",
+				"          LastEditedWhen as timestamp,",
+				"          Skey as integer,",
+				"          IngestDatetime as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 filter(ERROR_FUNCTION('')) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     recreate:true,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

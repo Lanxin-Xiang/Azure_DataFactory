@@ -1,0 +1,16 @@
+{
+	"name": "temp",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Integration002",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Ingeration",
+			"table": "temp"
+		}
+	}
+}
