@@ -82,6 +82,18 @@
 				},
 				{
 					"name": "derivedColumn2"
+				},
+				{
+					"name": "filter1"
+				},
+				{
+					"name": "filter2"
+				},
+				{
+					"name": "filter3"
+				},
+				{
+					"name": "filter4"
 				}
 			],
 			"scriptLines": [
@@ -188,7 +200,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> StockItemsStaging",
-				"PurchaseOrders select(mapColumn(",
+				"filter1 select(mapColumn(",
 				"          PurchaseOrderID,",
 				"          SupplierID,",
 				"          PurchaseOrderIDSkey = Skey,",
@@ -197,7 +209,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"PurchaseOrderLines select(mapColumn(",
+				"filter2 select(mapColumn(",
 				"          PurchaseOrderLineID,",
 				"          PurchaseOrderID,",
 				"          StockItemID,",
@@ -208,7 +220,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select2",
-				"Suppliers select(mapColumn(",
+				"filter3 select(mapColumn(",
 				"          SupplierID,",
 				"          IngestDatetime,",
 				"          SupplierSKey = Skey",
@@ -230,7 +242,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join3",
-				"StockItemsStaging select(mapColumn(",
+				"filter4 select(mapColumn(",
 				"          StockItemSKey = {Stock Item Staging Key},",
 				"          StockItemID = {WWI Stock Item ID},",
 				"          Package,",
@@ -277,6 +289,10 @@
 				"     skipDuplicateMapOutputs: true) ~> select7",
 				"derivedColumn2 alterRow(upsertIf(true())) ~> AlterRow1",
 				"select7 derive(IngestDatetime = currentTimestamp()) ~> derivedColumn2",
+				"PurchaseOrders filter(IngestDatetime > $LMDT) ~> filter1",
+				"PurchaseOrderLines filter(IngestDatetime > $LMDT) ~> filter2",
+				"Suppliers filter(IngestDatetime > $LMDT) ~> filter3",
+				"StockItemsStaging filter(IngestDatetime > $LMDT) ~> filter4",
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     input(",
