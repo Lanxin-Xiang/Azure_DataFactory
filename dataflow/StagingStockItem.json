@@ -1,7 +1,7 @@
 {
 	"name": "StagingStockItem",
 	"properties": {
-		"description": "[Stock Item Staging Key]\n      ,[WWI Stock Item ID]\n      ,[Stock Item]\n      ,[Color]\n      ,[Brand]\n      ,[Size]\n      ,[Lead Time Days]\n      ,[Quantity Per Outer]\n      ,[Is Chiller Stock]\n      ,[Barcode]\n      ,[Tax Rate]\n      ,[Unit Price]\n      ,[Recommended Retail Price]\n      ,[Typical Weight Per Unit]\n      ,[Photo]\n      ,[Valid From]\n      ,[Valid To]\n,[IngestDatetime]",
+		"description": "[Stock Item Staging Key]\n      ,[WWI Stock Item ID]\n      ,[Stock Item]\n      ,[Color]\n      ,[Package]\n      ,[Brand]\n      ,[Size]\n      ,[Lead Time Days]\n      ,[Quantity Per Outer]\n      ,[Is Chiller Stock]\n      ,[Barcode]\n      ,[Tax Rate]\n      ,[Unit Price]\n      ,[Recommended Retail Price]\n      ,[Typical Weight Per Unit]\n      ,[Photo]\n      ,[Valid From]\n      ,[Valid To]\n,[IngestDatetime]",
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
@@ -13,7 +13,15 @@
 					"name": "StockItems"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "StockItemStagingKey"
@@ -23,6 +31,9 @@
 				},
 				{
 					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -66,31 +77,33 @@
 				"          {WWI Stock Item ID} = StockItemID,",
 				"          {Stock Item} = StockItemName,",
 				"          Color = ColorID,",
-				"          {Selling Package} = UnitPackageID,",
-				"          OuterPackageID,",
+				"          Package = OuterPackageID,",
 				"          Brand,",
 				"          Size,",
-				"          LeadTimeDays,",
-				"          QuantityPerOuter,",
-				"          IsChillerStock,",
+				"          {Lead Time Days} = LeadTimeDays,",
+				"          {Quantity Per Outer} = QuantityPerOuter,",
+				"          {Is Chiller Stock} = IsChillerStock,",
 				"          Barcode,",
 				"          TaxRate,",
 				"          UnitPrice,",
-				"          RecommendedRetailPrice,",
-				"          TypicalWeightPerUnit,",
-				"          MarketingComments,",
-				"          InternalComments,",
+				"          {Recommended Retail Price} = RecommendedRetailPrice,",
+				"          {Typical Weight Per Unit} = TypicalWeightPerUnit,",
 				"          Photo,",
-				"          CustomFields,",
-				"          Tags,",
-				"          SearchDetails,",
-				"          LastEditedBy,",
-				"          ValidFrom,",
-				"          ValidTo,",
 				"          IngestDatetime",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 derive(Package = toString({Package})) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
