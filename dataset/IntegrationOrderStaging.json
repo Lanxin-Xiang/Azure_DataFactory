@@ -5,6 +5,9 @@
 			"referenceName": "WWIDB002",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "Staging"
+		},
 		"annotations": [],
 		"type": "AzureSqlTable",
 		"schema": [
