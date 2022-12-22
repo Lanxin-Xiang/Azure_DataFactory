@@ -26,8 +26,8 @@
 						"referenceName": "StagingPurchase",
 						"type": "DataFlowReference",
 						"parameters": {
-							"LMDT": {
-								"value": "@variables('LastModifiedDT')",
+							"LastModifiedDT": {
+								"value": "@variables('LMDT')",
 								"type": "Expression"
 							}
 						}
@@ -42,7 +42,14 @@
 			{
 				"name": "Script1",
 				"type": "Script",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "StagingStockItem",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -86,7 +93,7 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
-					"variableName": "LastModifiedDT",
+					"variableName": "LMDT",
 					"value": {
 						"value": "@activity('Script1').output.outputParameters.LastModifiedDT",
 						"type": "Expression"
