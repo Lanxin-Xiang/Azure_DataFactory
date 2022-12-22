@@ -28,10 +28,10 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "StockItems",
+						"referenceName": "StockItems_Staging",
 						"type": "DatasetReference"
 					},
-					"name": "StockItems"
+					"name": "StockItemsStaging"
 				}
 			],
 			"sinks": [
@@ -72,16 +72,10 @@
 					"name": "derivedOrderedQuantity"
 				},
 				{
-					"name": "StockItemSKey"
-				},
-				{
 					"name": "PurchaseStagingKey"
 				},
 				{
 					"name": "select7"
-				},
-				{
-					"name": "derivedColumn1"
 				},
 				{
 					"name": "AlterRow1"
@@ -92,7 +86,7 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     LMDT as string ($LMDT)",
+				"     LMDT as string",
 				"}",
 				"source(output(",
 				"          PurchaseOrderID as integer,",
@@ -172,36 +166,28 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> Suppliers",
 				"source(output(",
-				"          StockItemID as integer,",
-				"          StockItemName as string,",
-				"          SupplierID as integer,",
-				"          ColorID as integer,",
-				"          UnitPackageID as integer,",
-				"          OuterPackageID as integer,",
+				"          {Stock Item Staging Key} as long,",
+				"          {WWI Stock Item ID} as integer,",
+				"          {Stock Item} as string,",
+				"          Color as integer,",
+				"          Package as string,",
 				"          Brand as string,",
 				"          Size as string,",
-				"          LeadTimeDays as integer,",
-				"          QuantityPerOuter as integer,",
-				"          IsChillerStock as boolean,",
+				"          {Lead Time Days} as integer,",
+				"          {Quantity Per Outer} as integer,",
+				"          {Is Chiller Stock} as boolean,",
 				"          Barcode as string,",
 				"          TaxRate as decimal(18,3),",
 				"          UnitPrice as decimal(18,2),",
-				"          RecommendedRetailPrice as decimal(18,2),",
-				"          TypicalWeightPerUnit as decimal(18,3),",
-				"          MarketingComments as string,",
-				"          InternalComments as string,",
+				"          {Recommended Retail Price} as decimal(18,2),",
+				"          {Typical Weight Per Unit} as decimal(18,3),",
 				"          Photo as binary,",
-				"          CustomFields as string,",
-				"          Tags as string,",
-				"          SearchDetails as string,",
-				"          LastEditedBy as integer,",
-				"          ValidFrom as timestamp,",
-				"          ValidTo as timestamp",
+				"          IngestDatetime as timestamp",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> StockItems",
+				"     format: 'table') ~> StockItemsStaging",
 				"PurchaseOrders select(mapColumn(",
 				"          PurchaseOrderID,",
 				"          SupplierID,",
@@ -239,15 +225,16 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join2",
-				"join1, StockItemSKey join(select2@StockItemID == select5@StockItemID,",
+				"join1, select5 join(select2@StockItemID == select5@StockItemID,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join3",
-				"derivedColumn1 select(mapColumn(",
-				"          StockItemID,",
-				"          Package = package,",
-				"          QuantityPerOuter",
+				"StockItemsStaging select(mapColumn(",
+				"          StockItemSKey = {Stock Item Staging Key},",
+				"          StockItemID = {WWI Stock Item ID},",
+				"          Package,",
+				"          QuantityPerOuter = {Quantity Per Outer}",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select5",
@@ -268,9 +255,6 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select6",
 				"join2 derive(OrderedQuantity = QuantityPerOuter*OrderedOuters) ~> derivedOrderedQuantity",
-				"select5 keyGenerate(output(StockItemSKey as long),",
-				"     startAt: 10000L,",
-				"     stepValue: 1L) ~> StockItemSKey",
 				"select6 keyGenerate(output(PurchaseStagingKey as long),",
 				"     startAt: 1L,",
 				"     stepValue: 1L) ~> PurchaseStagingKey",
@@ -291,7 +275,6 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select7",
-				"StockItems derive(package = toString(OuterPackageID)) ~> derivedColumn1",
 				"derivedColumn2 alterRow(upsertIf(true())) ~> AlterRow1",
 				"select7 derive(IngestDatetime = currentTimestamp()) ~> derivedColumn2",
 				"AlterRow1 sink(allowSchemaDrift: true,",
