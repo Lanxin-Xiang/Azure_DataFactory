@@ -49,7 +49,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: '\\n\\nselect * from Purchasing.PurchaseOrderLines\\nwhere IngestDatetime >  ',",
+				"     query: 'select * from Purchasing.PurchaseOrderLines\\nwhere IngestDatetime >  ',",
 				"     format: 'query') ~> source1",
 				"source1 select(mapColumn(",
 				"          PurchaseOrderLineID,",

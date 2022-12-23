@@ -27,7 +27,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"LastModifiedDT": {
-								"value": "@variables('LMDT')",
+								"value": "'@{variables('LMDT')}'",
 								"type": "Expression"
 							}
 						}
