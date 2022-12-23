@@ -190,7 +190,10 @@
 											{
 												"name": "tablename",
 												"type": "String",
-												"value": "@schema+'.'+@table",
+												"value": {
+													"value": "@schema+'.'+@table",
+													"type": "Expression"
+												},
 												"direction": "Input"
 											},
 											{
