@@ -288,7 +288,7 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select7",
 				"derivedColumn2 alterRow(upsertIf(true())) ~> AlterRow1",
-				"select7 derive(IngestDatetime = toUTC(currentTimestamp())) ~> derivedColumn2",
+				"select7 derive(IngestDatetime = toString(currentUTC('UTC'), \"yyyy-MM-dd'T'HH:mm:ss.SSSXXX\")) ~> derivedColumn2",
 				"PurchaseOrders filter(IngestDatetime > $LastModifiedDT) ~> filter1",
 				"PurchaseOrderLines filter(IngestDatetime > $LastModifiedDT) ~> filter2",
 				"Suppliers filter(IngestDatetime > $LastModifiedDT) ~> filter3",
