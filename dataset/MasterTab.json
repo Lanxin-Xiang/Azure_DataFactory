@@ -1,0 +1,25 @@
+{
+	"name": "MasterTab",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Integration002",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Pipline Name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Last Trigger Datetime",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "MasterTab"
+		}
+	}
+}
