@@ -24,6 +24,9 @@
 			"transformations": [
 				{
 					"name": "select1"
+				},
+				{
+					"name": "filter1"
 				}
 			],
 			"scriptLines": [
@@ -51,13 +54,14 @@
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     query: 'select * from Purchasing.PurchaseOrderLines\\nwhere IngestDatetime >  ',",
 				"     format: 'query') ~> source1",
-				"source1 select(mapColumn(",
+				"filter1 select(mapColumn(",
 				"          PurchaseOrderLineID,",
 				"          PurchaseOrderID,",
 				"          IngestDatetime",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
+				"source1 filter(IngestDatetime < $LMDF) ~> filter1",
 				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
