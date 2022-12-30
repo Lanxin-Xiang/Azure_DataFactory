@@ -7,7 +7,7 @@
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "Set LMDT",
+						"activity": "Lookup1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -27,7 +27,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"LMDT": {
-								"value": "@variables('LMDT')",
+								"value": "'@{activity('Lookup1').output.firstRow.LMDT}'",
 								"type": "Expression"
 							}
 						}
@@ -40,8 +40,8 @@
 				}
 			},
 			{
-				"name": "Script1",
-				"type": "Script",
+				"name": "Lookup1",
+				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -51,45 +51,16 @@
 					"secureInput": false
 				},
 				"userProperties": [],
-				"linkedServiceName": {
-					"referenceName": "Integration002",
-					"type": "LinkedServiceReference"
-				},
 				"typeProperties": {
-					"scripts": [
-						{
-							"parameters": [
-								{
-									"name": "LastModifiedDT",
-									"type": "Datetime",
-									"value": "",
-									"direction": "Output"
-								}
-							],
-							"type": "Query",
-							"text": "select @LastModifiedDT = [Last Trigger Datetime] from dbo.MasterTab"
-						}
-					],
-					"scriptBlockExecutionTimeout": "02:00:00"
-				}
-			},
-			{
-				"name": "Set LMDT",
-				"type": "SetVariable",
-				"dependsOn": [
-					{
-						"activity": "Script1",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "LMDT",
-					"value": {
-						"value": "@activity('Script1').output.outputParameters.LastModifiedDT",
-						"type": "Expression"
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select [Last Trigger Datetime] as LMDT from dbo.MasterTab",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "MasterTab",
+						"type": "DatasetReference"
 					}
 				}
 			}
