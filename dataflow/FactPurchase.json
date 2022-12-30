@@ -20,6 +20,10 @@
 					"name": "IntegrationStockItemStaging"
 				},
 				{
+					"dataset": {
+						"referenceName": "Purchase_Staging",
+						"type": "DatasetReference"
+					},
 					"name": "IntegrationPurchaseStaging"
 				}
 			],
@@ -124,10 +128,13 @@
 				"          {Is Order Finalized} as boolean,",
 				"          {WWI Supplier ID} as integer,",
 				"          {WWI Stock Item ID} as integer,",
-				"          {Last Modified When} as timestamp",
+				"          {Last Modified When} as timestamp,",
+				"          IngestDatetime as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false) ~> IntegrationPurchaseStaging",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> IntegrationPurchaseStaging",
 				"join2 select(mapColumn(",
 				"          {Date Key},",
 				"          {Supplier Key} = DimensionSupplier@{Supplier Key},",
