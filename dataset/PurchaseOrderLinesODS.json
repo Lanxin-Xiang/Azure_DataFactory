@@ -70,12 +70,11 @@
 				"scale": 7
 			},
 			{
-				"name": "Skey",
-				"type": "int",
-				"precision": 10
+				"name": "IngestDatetime",
+				"type": "nvarchar"
 			},
 			{
-				"name": "IngestDatetime",
+				"name": "Skey",
 				"type": "nvarchar"
 			}
 		],
