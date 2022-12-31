@@ -37,10 +37,10 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Purchase_Staging",
+						"referenceName": "IntegrationPurchaseStaging",
 						"type": "DatasetReference"
 					},
-					"name": "sinkPurchaseStaging"
+					"name": "sink1"
 				}
 			],
 			"transformations": [
@@ -294,32 +294,14 @@
 				"Suppliers filter(IngestDatetime > $LMDT) ~> filter3",
 				"StockItemsStaging filter(IngestDatetime > $LMDT) ~> filter4",
 				"AlterRow1 sink(allowSchemaDrift: true,",
-				"     validateSchema: true,",
-				"     input(",
-				"          {Purchase Staging Key} as long,",
-				"          {Date Key} as date,",
-				"          {Supplier Key} as string,",
-				"          {Stock Item Key} as long,",
-				"          {WWI Purchase Order ID} as integer,",
-				"          {Ordered Outers} as integer,",
-				"          {Ordered Quantity} as integer,",
-				"          {Received Outers} as integer,",
-				"          Package as string,",
-				"          {Is Order Finalized} as boolean,",
-				"          {WWI Supplier ID} as integer,",
-				"          {WWI Stock Item ID} as integer,",
-				"          {Last Modified When} as timestamp,",
-				"          IngestDatetime as string",
-				"     ),",
+				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
-				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 1,",
 				"     errorHandlingOption: 'stopOnFirstError',",
 				"     mapColumn(",
 				"          {Purchase Staging Key},",
@@ -336,7 +318,7 @@
 				"          {WWI Stock Item ID},",
 				"          {Last Modified When},",
 				"          IngestDatetime",
-				"     )) ~> sinkPurchaseStaging"
+				"     )) ~> sink1"
 			]
 		}
 	}
