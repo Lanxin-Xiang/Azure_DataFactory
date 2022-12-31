@@ -294,7 +294,7 @@
 				"Suppliers filter(IngestDatetime > $LMDT) ~> filter3",
 				"StockItemsStaging filter(IngestDatetime > $LMDT) ~> filter4",
 				"AlterRow1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
+				"     validateSchema: true,",
 				"     input(",
 				"          {Purchase Staging Key} as long,",
 				"          {Date Key} as date,",
