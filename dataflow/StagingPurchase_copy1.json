@@ -1,5 +1,5 @@
 {
-	"name": "StagingPurchase",
+	"name": "StagingPurchase_copy1",
 	"properties": {
 		"description": "[Purchase Staging Key]\n      ,[Date Key]\n      ,[Supplier Key]\n      ,[Stock Item Key]\n      ,[WWI Purchase Order ID]\n      ,[Ordered Outers]\n      ,[Ordered Quantity]\n      ,[Received Outers]\n      ,[Package]\n      ,[Is Order Finalized]\n      ,[WWI Supplier ID]\n      ,[WWI Stock Item ID]\n      ,[Last Modified When]",
 		"type": "MappingDataFlow",
@@ -315,6 +315,7 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
+				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
