@@ -78,9 +78,6 @@
 					"name": "select7"
 				},
 				{
-					"name": "AlterRow1"
-				},
-				{
 					"name": "derivedColumn2"
 				},
 				{
@@ -287,13 +284,12 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select7",
-				"derivedColumn2 alterRow(upsertIf(true())) ~> AlterRow1",
 				"select7 derive(IngestDatetime = toString(currentUTC('UTC'), \"yyyy-MM-dd'T'HH:mm:ss.SSSXXX\")) ~> derivedColumn2",
 				"PurchaseOrders filter(IngestDatetime > $LMDT) ~> filter1",
 				"PurchaseOrderLines filter(IngestDatetime > $LMDT) ~> filter2",
 				"Suppliers filter(IngestDatetime > $LMDT) ~> filter3",
 				"StockItemsStaging filter(IngestDatetime > $LMDT) ~> filter4",
-				"AlterRow1 sink(allowSchemaDrift: true,",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
