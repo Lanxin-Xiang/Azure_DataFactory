@@ -98,7 +98,7 @@
 			],
 			"scriptLines": [
 				"parameters{",
-				"     LMDT as string",
+				"     LMDT as string (\"2012-12-20T20:49:19.9058505Z\")",
 				"}",
 				"source(output(",
 				"          PurchaseOrderID as integer,",
