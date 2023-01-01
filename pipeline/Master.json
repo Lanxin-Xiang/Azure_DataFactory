@@ -5,7 +5,14 @@
 			{
 				"name": "Execute Pipeline1",
 				"type": "ExecutePipeline",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Set variable1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
 					"pipeline": {
@@ -76,8 +83,21 @@
 				}
 			},
 			{
-				"name": "Lookup1",
-				"type": "Lookup",
+				"name": "Set variable1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "runtime",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "Script1",
+				"type": "Script",
 				"dependsOn": [
 					{
 						"activity": "Execute Pipeline4",
@@ -94,20 +114,26 @@
 					"secureInput": false
 				},
 				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
+				},
 				"typeProperties": {
-					"source": {
-						"type": "AzureSqlSource",
-						"sqlReaderQuery": "update dbo.MasterTab\nset [Last Trigger Datetime] = ",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
-					},
-					"dataset": {
-						"referenceName": "MasterTab",
-						"type": "DatasetReference"
-					}
+					"scripts": [
+						{
+							"type": "Query",
+							"text": "update dbo.MasterTab set [Last Trigger Datetime] = '@{variables('runtime')}'"
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
 				}
 			}
 		],
+		"variables": {
+			"runtime": {
+				"type": "String"
+			}
+		},
 		"annotations": []
 	}
 }
