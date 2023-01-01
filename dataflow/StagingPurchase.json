@@ -37,7 +37,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "IntegrationPurchaseStaging",
+						"referenceName": "IntegrationPurchasingStaging",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -295,22 +295,6 @@
 				"StockItemsStaging filter(IngestDatetime > $LMDT) ~> filter4",
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          {Purchase Staging Key} as long,",
-				"          {Date Key} as date,",
-				"          {Supplier Key} as string,",
-				"          {Stock Item Key} as long,",
-				"          {WWI Purchase Order ID} as integer,",
-				"          {Ordered Outers} as integer,",
-				"          {Ordered Quantity} as integer,",
-				"          {Received Outers} as integer,",
-				"          Package as string,",
-				"          {Is Order Finalized} as boolean,",
-				"          {WWI Supplier ID} as integer,",
-				"          {WWI Stock Item ID} as integer,",
-				"          {Last Modified When} as timestamp,",
-				"          IngestDatetime as string",
-				"     ),",
 				"     deletable:false,",
 				"     insertable:true,",
 				"     updateable:false,",
