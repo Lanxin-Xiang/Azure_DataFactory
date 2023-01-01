@@ -294,7 +294,7 @@
 				"Suppliers filter(IngestDatetime > $LMDT) ~> filter3",
 				"StockItemsStaging filter(IngestDatetime > $LMDT) ~> filter4",
 				"AlterRow1 sink(allowSchemaDrift: true,",
-				"     validateSchema: true,",
+				"     validateSchema: false,",
 				"     input(",
 				"          {Purchase Staging Key} as long,",
 				"          {Date Key} as date,",
@@ -315,27 +315,10 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
-				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError',",
-				"     mapColumn(",
-				"          {Purchase Staging Key},",
-				"          {Date Key},",
-				"          {Supplier Key},",
-				"          {Stock Item Key},",
-				"          {WWI Purchase Order ID},",
-				"          {Ordered Outers},",
-				"          {Ordered Quantity},",
-				"          {Received Outers},",
-				"          Package,",
-				"          {Is Order Finalized},",
-				"          {WWI Supplier ID},",
-				"          {WWI Stock Item ID},",
-				"          {Last Modified When},",
-				"          IngestDatetime",
-				"     )) ~> sink1"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
