@@ -5,7 +5,14 @@
 			{
 				"name": "PurchaseStaging",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lookup1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -20,7 +27,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"LMDT": {
-								"value": "'2012-12-20T20:49:19.9058505Z'",
+								"value": "@activity('Lookup1').output.firstRow.LMDT",
 								"type": "Expression"
 							}
 						}
@@ -30,6 +37,31 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Lookup1",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "select [Last Trigger Datetime] as LMDT from dbo.MasterTab",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "MasterTab",
+						"type": "DatasetReference"
+					}
 				}
 			}
 		],
