@@ -27,7 +27,7 @@
 						"type": "DataFlowReference",
 						"parameters": {
 							"LMDT": {
-								"value": "@activity('Lookup1').output.firstRow.LMDT",
+								"value": "'@{activity('Lookup1').output.firstRow.LMDT}'",
 								"type": "Expression"
 							}
 						}
