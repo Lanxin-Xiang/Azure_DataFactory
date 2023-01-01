@@ -97,13 +97,10 @@
 			}
 		],
 		"variables": {
-			"LastModifyDate": {
-				"type": "String"
-			},
-			"LastModifiedDT": {
-				"type": "String"
-			},
 			"LMDT": {
+				"type": "String"
+			},
+			"runtime": {
 				"type": "String"
 			}
 		},
