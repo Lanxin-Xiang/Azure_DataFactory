@@ -1,0 +1,16 @@
+{
+	"name": "purchasingstaging",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Integration002",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "Integration",
+			"table": "purchasestaging"
+		}
+	}
+}
