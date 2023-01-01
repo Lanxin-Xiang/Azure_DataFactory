@@ -122,7 +122,10 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "update dbo.MasterTab set [Last Trigger Datetime] = '@{variables('runtime')}'"
+							"text": {
+								"value": "update dbo.MasterTab set [Last Trigger Datetime] = '@{variables('runtime')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
