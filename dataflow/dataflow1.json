@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "PurchaseOrderLinesODS",
+						"referenceName": "PurchaseOrdersODS",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
@@ -33,23 +33,7 @@
 				"parameters{",
 				"     LMDT as string",
 				"}",
-				"source(output(",
-				"          PurchaseOrderLineID as integer,",
-				"          PurchaseOrderID as integer,",
-				"          StockItemID as integer,",
-				"          OrderedOuters as integer,",
-				"          Description as string,",
-				"          ReceivedOuters as integer,",
-				"          PackageTypeID as integer,",
-				"          ExpectedUnitPricePerOuter as decimal(18,2),",
-				"          LastReceiptDate as date,",
-				"          IsOrderLineFinalized as boolean,",
-				"          LastEditedBy as integer,",
-				"          LastEditedWhen as timestamp,",
-				"          IngestDatetime as string,",
-				"          Skey as string",
-				"     ),",
-				"     allowSchemaDrift: true,",
+				"source(allowSchemaDrift: true,",
 				"     validateSchema: true,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> source1",
