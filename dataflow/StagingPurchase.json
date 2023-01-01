@@ -37,7 +37,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "temp",
+						"referenceName": "IntegrationPurchasingStaging",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -295,7 +295,6 @@
 				"     insertable:true,",
 				"     updateable:false,",
 				"     upsertable:false,",
-				"     recreate:true,",
 				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
