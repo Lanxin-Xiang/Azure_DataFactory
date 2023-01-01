@@ -28,7 +28,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "StockItems_Staging",
+						"referenceName": "IntegrationStockItemsStaging",
 						"type": "DatasetReference"
 					},
 					"name": "StockItemsStaging"
