@@ -37,7 +37,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "purchasingstaging",
+						"referenceName": "temp",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
