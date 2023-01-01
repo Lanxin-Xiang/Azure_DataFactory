@@ -19,6 +19,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'WWI002'"
 		},
+		"WWIDB002_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'WWIDB002'"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -54,6 +58,9 @@
 					},
 					"WWI002_connectionString": {
 						"value": "[parameters('WWI002_connectionString')]"
+					},
+					"WWIDB002_connectionString": {
+						"value": "[parameters('WWIDB002_connectionString')]"
 					}
 				}
 			},
@@ -77,6 +84,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'LanxinDataFactory_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "LanxinDataFactory_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'LanxinDataFactory_ArmTemplate_1')]"
 			]
 		}
 	]

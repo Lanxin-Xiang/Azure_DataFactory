@@ -13,6 +13,9 @@
 		},
 		"WWI002_connectionString": {
 			"value": ""
+		},
+		"WWIDB002_connectionString": {
+			"value": ""
 		}
 	}
 }

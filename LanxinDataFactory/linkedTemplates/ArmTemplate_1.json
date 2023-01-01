@@ -13,6 +13,601 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/SupplierCategories')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WWI002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Purchasing"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SupplierCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierCategoryName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastEditedBy",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ValidFrom",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ValidTo",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "SupplierCategories"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SupplierCategoriesODS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ODS002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SupplierCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierCategoryName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastEditedBy",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ValidFrom",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ValidTo",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "IngestDatetime",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "SupplierCategories"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SupplierCategories_Archive')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WWI002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Purchasing"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SupplierCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierCategoryName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastEditedBy",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ValidFrom",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ValidTo",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "SupplierCategories_Archive"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SupplierCategories_ArchiveODS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ODS002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "SupplierCategories_Archive"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SupplierTransactions')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WWI002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Purchasing"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SupplierTransactionID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TransactionTypeID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PurchaseOrderID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PaymentMethodID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierInvoiceNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TransactionDate",
+						"type": "date"
+					},
+					{
+						"name": "AmountExcludingTax",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "TaxAmount",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "TransactionAmount",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "OutstandingBalance",
+						"type": "decimal",
+						"precision": 18,
+						"scale": 2
+					},
+					{
+						"name": "FinalizationDate",
+						"type": "date"
+					},
+					{
+						"name": "IsFinalized",
+						"type": "bit"
+					},
+					{
+						"name": "LastEditedBy",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "LastEditedWhen",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "SupplierTransactions"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SupplierTransactionsODS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ODS002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "SupplierTransactions"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Suppliers')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "WWI002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "Purchasing"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SupplierID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupplierCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PrimaryContactPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AlternateContactPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DeliveryMethodID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DeliveryCityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PostalCityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierReference",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountBranch",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankInternationalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PaymentDays",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "InternalComments",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PhoneNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FaxNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WebsiteURL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryAddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryAddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryPostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryLocation",
+						"type": "geography"
+					},
+					{
+						"name": "PostalAddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalPostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastEditedBy",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ValidFrom",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ValidTo",
+						"type": "datetime2",
+						"scale": 7
+					}
+				],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "Suppliers"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SuppliersODS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ODS002",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "ODS"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "SupplierID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SupplierCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PrimaryContactPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "AlternateContactPersonID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DeliveryMethodID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "DeliveryCityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PostalCityID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "SupplierReference",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountBranch",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankAccountNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "BankInternationalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PaymentDays",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "InternalComments",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PhoneNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FaxNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "WebsiteURL",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryAddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryAddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryPostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeliveryLocation",
+						"type": "geography"
+					},
+					{
+						"name": "PostalAddressLine1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalAddressLine2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PostalPostalCode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LastEditedBy",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ValidFrom",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "ValidTo",
+						"type": "datetime2",
+						"scale": 7
+					},
+					{
+						"name": "IngestDatetime",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Skey",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "Purchasing",
+					"table": "Suppliers"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Suppliers_Archive')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -218,163 +813,45 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/purchasingstaging')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "GetPurchaseTableList",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderQuery": "select table_schema, table_name from information_schema.tables where table_type = 'base table' and table_schema = 'Purchasing'",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "PurchaseOrders",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach1",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "GetPurchaseTableList",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('GetPurchaseTableList').output.value",
-								"type": "Expression"
-							},
-							"activities": [
-								{
-									"name": "Copy data1",
-									"type": "Copy",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [
-										{
-											"name": "Source",
-											"value": "@{item().table_schema}.@{item().table_name}"
-										},
-										{
-											"name": "Destination",
-											"value": "@{item().table_schema}.@{item().table_name}"
-										}
-									],
-									"typeProperties": {
-										"source": {
-											"type": "AzureSqlSource",
-											"additionalColumns": [
-												{
-													"name": "IngestDatetime",
-													"value": {
-														"value": "@utcnow()",
-														"type": "Expression"
-													}
-												},
-												{
-													"name": "Skey",
-													"value": {
-														"value": "@guid()",
-														"type": "Expression"
-													}
-												}
-											],
-											"queryTimeout": "02:00:00",
-											"partitionOption": "None"
-										},
-										"sink": {
-											"type": "AzureSqlSink",
-											"writeBehavior": "insert",
-											"sqlWriterUseTableLock": false,
-											"tableOption": "autoCreate",
-											"disableMetricsCollection": false
-										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
-									},
-									"inputs": [
-										{
-											"referenceName": "TableList",
-											"type": "DatasetReference",
-											"parameters": {
-												"schema": {
-													"value": "@item().table_schema",
-													"type": "Expression"
-												},
-												"table": "@item().table_name"
-											}
-										}
-									],
-									"outputs": [
-										{
-											"referenceName": "AutoCreate",
-											"type": "DatasetReference",
-											"parameters": {
-												"schema": {
-													"value": "@item().table_schema",
-													"type": "Expression"
-												},
-												"table": {
-													"value": "@item().table_name",
-													"type": "Expression"
-												}
-											}
-										}
-									]
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"lastPublishTime": "2022-12-15T21:42:04Z"
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Integration",
+					"table": "purchasestaging"
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/TableList')]"
-			]
+			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
+			"name": "[concat(parameters('factoryName'), '/temp')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Integration002",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "Integration",
+					"table": "temp"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Copy1by1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -408,7 +885,13 @@
 							},
 							"sink": {
 								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"Skey"
+									]
+								},
 								"sqlWriterUseTableLock": false,
 								"tableOption": "autoCreate",
 								"disableMetricsCollection": false
@@ -801,12 +1284,894 @@
 				"lastPublishTime": "2022-12-15T15:23:17Z"
 			},
 			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SupplierCategories')]",
+				"[concat(variables('factoryId'), '/datasets/SupplierCategoriesODS')]",
+				"[concat(variables('factoryId'), '/datasets/Suppliers')]",
+				"[concat(variables('factoryId'), '/datasets/SuppliersODS')]",
+				"[concat(variables('factoryId'), '/datasets/SupplierCategories_Archive')]",
+				"[concat(variables('factoryId'), '/datasets/SupplierCategories_ArchiveODS')]",
 				"[concat(variables('factoryId'), '/datasets/Suppliers_Archive')]",
-				"[concat(variables('factoryId'), '/datasets/Suppliers_ArchiveODS')]"
+				"[concat(variables('factoryId'), '/datasets/Suppliers_ArchiveODS')]",
+				"[concat(variables('factoryId'), '/datasets/SupplierTransactions')]",
+				"[concat(variables('factoryId'), '/datasets/SupplierTransactionsODS')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/PurchaseStaging')]",
+			"name": "[concat(parameters('factoryName'), '/OLTP2ODS')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "GetPurchaseTableList",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderQuery": "select table_schema, table_name from information_schema.tables where table_type = 'base table' and table_schema = 'Purchasing'",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "PurchaseOrders",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "GetPurchaseTableList",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('GetPurchaseTableList').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Copy data1",
+									"type": "Copy",
+									"dependsOn": [
+										{
+											"activity": "Script1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [
+										{
+											"name": "Source",
+											"value": "@{item().table_schema}.@{item().table_name}"
+										},
+										{
+											"name": "Destination",
+											"value": "@{item().table_schema}.@{item().table_name}"
+										}
+									],
+									"typeProperties": {
+										"source": {
+											"type": "AzureSqlSource",
+											"additionalColumns": [
+												{
+													"name": "IngestDatetime",
+													"value": {
+														"value": "@utcnow()",
+														"type": "Expression"
+													}
+												},
+												{
+													"name": "Skey",
+													"value": {
+														"value": "@guid()",
+														"type": "Expression"
+													}
+												}
+											],
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "AzureSqlSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false,
+											"tableOption": "autoCreate",
+											"disableMetricsCollection": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "TableList",
+											"type": "DatasetReference",
+											"parameters": {
+												"schema": {
+													"value": "@item().table_schema",
+													"type": "Expression"
+												},
+												"table": "@item().table_name"
+											}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "AutoCreate",
+											"type": "DatasetReference",
+											"parameters": {
+												"schema": {
+													"value": "@item().table_schema",
+													"type": "Expression"
+												},
+												"table": {
+													"value": "@item().table_name",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								},
+								{
+									"name": "Script1",
+									"type": "Script",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"linkedServiceName": {
+										"referenceName": "ODS002",
+										"type": "LinkedServiceReference"
+									},
+									"typeProperties": {
+										"scripts": [
+											{
+												"parameters": [
+													{
+														"name": "schema",
+														"type": "String",
+														"value": {
+															"value": "@item().table_schema",
+															"type": "Expression"
+														},
+														"direction": "Input"
+													},
+													{
+														"name": "table",
+														"type": "String",
+														"value": {
+															"value": "@item().table_name",
+															"type": "Expression"
+														},
+														"direction": "Input"
+													},
+													{
+														"name": "InsertQuery",
+														"type": "String",
+														"value": "",
+														"direction": "Input"
+													},
+													{
+														"name": "tablename",
+														"type": "String",
+														"value": {
+															"value": "@schema+'.'+@table",
+															"type": "Expression"
+														},
+														"direction": "Input"
+													},
+													{
+														"name": "DelQuery",
+														"type": "String",
+														"value": "",
+														"direction": "Input"
+													},
+													{
+														"name": "condition",
+														"type": "String",
+														"value": "",
+														"direction": "Input"
+													}
+												],
+												"type": "Query",
+												"text": "set @condition =  'CAST(IngestDatetime AS DATE) < DATEADD(day, -7, Getdate())'\n\nset @InsertQuery = 'Insert into dbo.DeleteLog ([Table Name], [Delete Table pk], [Complete Date]) select '''+@tablename+''' as [Table Name], Skey, Getdate() as [Complete Date] from '+@tablename+' where '+@condition\nset @DelQuery = 'delete from ' + @tablename + ' where '+ @condition\n\nEXECUTE sp_executesql @InsertQuery\nEXECUTE sp_executesql @DelQuery"
+											}
+										],
+										"scriptBlockExecutionTimeout": "02:00:00"
+									}
+								},
+								{
+									"name": "Script2",
+									"type": "Script",
+									"dependsOn": [
+										{
+											"activity": "Copy data1",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"linkedServiceName": {
+										"referenceName": "Integration002",
+										"type": "LinkedServiceReference"
+									},
+									"typeProperties": {
+										"scripts": [
+											{
+												"type": "Query",
+												"text": "insert into dbo.MasterTab ([Pipline Name], [Complete Date]) values('OLTP2ODS',  Getdate())"
+											}
+										],
+										"scriptBlockExecutionTimeout": "02:00:00"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"variables": {
+					"runtime": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2022-12-15T21:42:04Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/TableList')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dimension_Supplier')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "[[Supplier Key]\n      ,[WWI Supplier ID]\n      ,[Supplier]\n      ,[Category]\n      ,[Primary Contact]\n      ,[Supplier Reference]\n      ,[Payment Days]\n      ,[Postal Code]\n      ,[Valid From]\n      ,[Valid To]\n      ,[Lineage Key]",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "SuppliersODS",
+								"type": "DatasetReference"
+							},
+							"name": "SuppliersODS"
+						},
+						{
+							"dataset": {
+								"referenceName": "SupplierCategories",
+								"type": "DatasetReference"
+							},
+							"name": "SupplierCategories"
+						},
+						{
+							"dataset": {
+								"referenceName": "People",
+								"type": "DatasetReference"
+							},
+							"name": "People"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimensionSupplier",
+								"type": "DatasetReference"
+							},
+							"name": "DimensionSupplier"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DimensionSupplier",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "DimensionSupplier",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						}
+					],
+					"transformations": [
+						{
+							"name": "SupplierKey"
+						},
+						{
+							"name": "derivedLineageKey"
+						},
+						{
+							"name": "select1"
+						},
+						{
+							"name": "select2"
+						},
+						{
+							"name": "join1"
+						},
+						{
+							"name": "select3"
+						},
+						{
+							"name": "join2"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "derivedColumn2"
+						},
+						{
+							"name": "lookup1"
+						},
+						{
+							"name": "ExistingRows"
+						},
+						{
+							"name": "select4"
+						},
+						{
+							"name": "derivedColumn3"
+						},
+						{
+							"name": "alterRow1"
+						},
+						{
+							"name": "AlterRow2"
+						},
+						{
+							"name": "filter1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     LMDT as string",
+						"}",
+						"source(output(",
+						"          SupplierID as integer,",
+						"          SupplierName as string,",
+						"          SupplierCategoryID as integer,",
+						"          PrimaryContactPersonID as integer,",
+						"          AlternateContactPersonID as integer,",
+						"          DeliveryMethodID as integer,",
+						"          DeliveryCityID as integer,",
+						"          PostalCityID as integer,",
+						"          SupplierReference as string,",
+						"          BankAccountName as string,",
+						"          BankAccountBranch as string,",
+						"          BankAccountCode as string,",
+						"          BankAccountNumber as string,",
+						"          BankInternationalCode as string,",
+						"          PaymentDays as integer,",
+						"          InternalComments as string,",
+						"          PhoneNumber as string,",
+						"          FaxNumber as string,",
+						"          WebsiteURL as string,",
+						"          DeliveryAddressLine1 as string,",
+						"          DeliveryAddressLine2 as string,",
+						"          DeliveryPostalCode as string,",
+						"          DeliveryLocation as binary,",
+						"          PostalAddressLine1 as string,",
+						"          PostalAddressLine2 as string,",
+						"          PostalPostalCode as string,",
+						"          LastEditedBy as integer,",
+						"          ValidFrom as timestamp,",
+						"          ValidTo as timestamp,",
+						"          IngestDatetime as string,",
+						"          Skey as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> SuppliersODS",
+						"source(output(",
+						"          SupplierCategoryID as integer,",
+						"          SupplierCategoryName as string,",
+						"          LastEditedBy as integer,",
+						"          ValidFrom as timestamp,",
+						"          ValidTo as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> SupplierCategories",
+						"source(output(",
+						"          PersonID as integer,",
+						"          FullName as string,",
+						"          PreferredName as string,",
+						"          SearchName as string,",
+						"          IsPermittedToLogon as boolean,",
+						"          LogonName as string,",
+						"          IsExternalLogonProvider as boolean,",
+						"          HashedPassword as binary,",
+						"          IsSystemUser as boolean,",
+						"          IsEmployee as boolean,",
+						"          IsSalesperson as boolean,",
+						"          UserPreferences as string,",
+						"          PhoneNumber as string,",
+						"          FaxNumber as string,",
+						"          EmailAddress as string,",
+						"          Photo as binary,",
+						"          CustomFields as string,",
+						"          OtherLanguages as string,",
+						"          LastEditedBy as integer,",
+						"          ValidFrom as timestamp,",
+						"          ValidTo as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> People",
+						"source(output(",
+						"          {Supplier Key} as integer,",
+						"          {WWI Supplier ID} as integer,",
+						"          Supplier as string,",
+						"          Category as string,",
+						"          {Primary Contact} as string,",
+						"          {Supplier Reference} as string,",
+						"          {Payment Days} as integer,",
+						"          {Postal Code} as string,",
+						"          {Valid From} as timestamp,",
+						"          {Valid To} as timestamp,",
+						"          {Lineage Key} as integer,",
+						"          Active as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimensionSupplier",
+						"filter1 keyGenerate(output({Supplier Key} as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> SupplierKey",
+						"SupplierKey derive({Lineage Key} = toInteger(year(currentTimestamp())-year({ValidFrom}))) ~> derivedLineageKey",
+						"derivedColumn1 select(mapColumn(",
+						"          {Supplier Key},",
+						"          WWISupplierID = SupplierID,",
+						"          Supplier = SupplierName,",
+						"          Category = SupplierCategoryName,",
+						"          {Primary Contact} = FullName,",
+						"          {Supplier Reference} = SupplierReference,",
+						"          {Payment Days} = PaymentDays,",
+						"          {Postal Code} = PostalPostalCode,",
+						"          {Valid From} = ValidFrom,",
+						"          {Valid To} = ValidTo,",
+						"          {Lineage Key}",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"SupplierCategories select(mapColumn(",
+						"          SupplierCategoryID,",
+						"          SupplierCategoryName",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select2",
+						"derivedLineageKey, select2 join(SuppliersODS@SupplierCategoryID == select2@SupplierCategoryID,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join1",
+						"People select(mapColumn(",
+						"          PersonID,",
+						"          FullName",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select3",
+						"join1, select3 join(PrimaryContactPersonID == PersonID,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join2",
+						"join2 derive({Supplier Key} = toInteger({Supplier Key})) ~> derivedColumn1",
+						"select1 derive(Active = 1) ~> derivedColumn2",
+						"select1, select4 lookup(WWISupplierID == {sinked WWI Supplier ID},",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> lookup1",
+						"lookup1 filter(!isNull({sinked WWI Supplier ID}) && {sinked Active} == 1 && {Valid From} > {sinked Valid From}) ~> ExistingRows",
+						"DimensionSupplier select(mapColumn(",
+						"          {sinked Supplier Key} = {Supplier Key},",
+						"          {sinked WWI Supplier ID} = {WWI Supplier ID},",
+						"          {sinked Supplier} = Supplier,",
+						"          {sinked Category} = Category,",
+						"          {sinked Primary Contact} = {Primary Contact},",
+						"          {sinked Supplier Reference} = {Supplier Reference},",
+						"          {sinked Payment Days} = {Payment Days},",
+						"          {sinked Postal Code} = {Postal Code},",
+						"          {sinked Valid From} = {Valid From},",
+						"          {sinked Valid To} = {Valid To},",
+						"          {sinked Lineage Key} = {Lineage Key},",
+						"          {sinked Active} = Active",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select4",
+						"ExistingRows derive({sinked Active} = 0,",
+						"          {sinked Valid To} = {Valid From}) ~> derivedColumn3",
+						"derivedColumn3 alterRow(updateIf(true())) ~> alterRow1",
+						"derivedColumn2 alterRow(upsertIf(true())) ~> AlterRow2",
+						"SuppliersODS filter(IngestDatetime > $LMDT) ~> filter1",
+						"AlterRow2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {Supplier Key} as integer,",
+						"          {WWI Supplier ID} as integer,",
+						"          Supplier as string,",
+						"          Category as string,",
+						"          {Primary Contact} as string,",
+						"          {Supplier Reference} as string,",
+						"          {Payment Days} as integer,",
+						"          {Postal Code} as string,",
+						"          {Valid From} as timestamp,",
+						"          {Valid To} as timestamp,",
+						"          {Lineage Key} as integer,",
+						"          Active as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['Supplier Key'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          {Supplier Key},",
+						"          {WWI Supplier ID} = WWISupplierID,",
+						"          Supplier,",
+						"          Category,",
+						"          {Primary Contact},",
+						"          {Supplier Reference},",
+						"          {Payment Days},",
+						"          {Postal Code},",
+						"          {Valid From},",
+						"          {Valid To},",
+						"          {Lineage Key},",
+						"          Active",
+						"     )) ~> sink1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {Supplier Key} as integer,",
+						"          {WWI Supplier ID} as integer,",
+						"          Supplier as string,",
+						"          Category as string,",
+						"          {Primary Contact} as string,",
+						"          {Supplier Reference} as string,",
+						"          {Payment Days} as integer,",
+						"          {Postal Code} as string,",
+						"          {Valid From} as timestamp,",
+						"          {Valid To} as timestamp,",
+						"          {Lineage Key} as integer,",
+						"          Active as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['Supplier Key'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          {Supplier Key} = {sinked Supplier Key},",
+						"          {WWI Supplier ID} = {sinked WWI Supplier ID},",
+						"          Category = {sinked Category},",
+						"          {Primary Contact} = {sinked Primary Contact},",
+						"          {Supplier Reference} = {sinked Supplier Reference},",
+						"          {Payment Days} = {sinked Payment Days},",
+						"          {Postal Code} = {sinked Postal Code},",
+						"          {Valid From} = {sinked Valid From},",
+						"          {Valid To} = {sinked Valid To},",
+						"          {Lineage Key} = {sinked Lineage Key},",
+						"          Active = {sinked Active}",
+						"     )) ~> sink2"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SuppliersODS')]",
+				"[concat(variables('factoryId'), '/datasets/SupplierCategories')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FactPurchase')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "[[Purchase Key]\n      ,[Date Key]\n      ,[Supplier Key]\n      ,[Stock Item Key]\n      ,[WWI Purchase Order ID]\n      ,[Ordered Outers]\n      ,[Ordered Quantity]\n      ,[Received Outers]\n      ,[Package]\n      ,[Is Order Finalized]\n      ,[Lineage Key]",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DimensionSupplier",
+								"type": "DatasetReference"
+							},
+							"name": "DimensionSupplier"
+						},
+						{
+							"dataset": {
+								"referenceName": "StockItems",
+								"type": "DatasetReference"
+							},
+							"name": "IntegrationStockItemStaging"
+						},
+						{
+							"dataset": {
+								"referenceName": "IntegrationPurchasingStaging",
+								"type": "DatasetReference"
+							},
+							"name": "IntegrationPurchaseStaging"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "FactPurchase",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select2"
+						},
+						{
+							"name": "select3"
+						},
+						{
+							"name": "join2"
+						},
+						{
+							"name": "join3"
+						},
+						{
+							"name": "PurchaseKey"
+						},
+						{
+							"name": "select4"
+						},
+						{
+							"name": "alterRow1"
+						},
+						{
+							"name": "surrogateKey1"
+						},
+						{
+							"name": "filter1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          {Supplier Key} as integer,",
+						"          {WWI Supplier ID} as integer,",
+						"          Supplier as string,",
+						"          Category as string,",
+						"          {Primary Contact} as string,",
+						"          {Supplier Reference} as string,",
+						"          {Payment Days} as integer,",
+						"          {Postal Code} as string,",
+						"          {Valid From} as timestamp,",
+						"          {Valid To} as timestamp,",
+						"          {Lineage Key} as integer,",
+						"          Active as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> DimensionSupplier",
+						"source(output(",
+						"          StockItemID as integer,",
+						"          StockItemName as string,",
+						"          SupplierID as integer,",
+						"          ColorID as integer,",
+						"          UnitPackageID as integer,",
+						"          OuterPackageID as integer,",
+						"          Brand as string,",
+						"          Size as string,",
+						"          LeadTimeDays as integer,",
+						"          QuantityPerOuter as integer,",
+						"          IsChillerStock as boolean,",
+						"          Barcode as string,",
+						"          TaxRate as decimal(18,3),",
+						"          UnitPrice as decimal(18,2),",
+						"          RecommendedRetailPrice as decimal(18,2),",
+						"          TypicalWeightPerUnit as decimal(18,3),",
+						"          MarketingComments as string,",
+						"          InternalComments as string,",
+						"          Photo as binary,",
+						"          CustomFields as string,",
+						"          Tags as string,",
+						"          SearchDetails as string,",
+						"          LastEditedBy as integer,",
+						"          ValidFrom as timestamp,",
+						"          ValidTo as timestamp",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> IntegrationStockItemStaging",
+						"source(output(",
+						"          {Purchase Staging Key} as long,",
+						"          {Date Key} as date,",
+						"          {Supplier Key} as string,",
+						"          {Stock Item Key} as long,",
+						"          {WWI Purchase Order ID} as integer,",
+						"          {Ordered Outers} as integer,",
+						"          {Ordered Quantity} as integer,",
+						"          {Received Outers} as integer,",
+						"          Package as string,",
+						"          {Is Order Finalized} as boolean,",
+						"          {WWI Supplier ID} as integer,",
+						"          {WWI Stock Item ID} as integer,",
+						"          {Last Modified When} as timestamp,",
+						"          IngestDatetime as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> IntegrationPurchaseStaging",
+						"join2 select(mapColumn(",
+						"          {Date Key},",
+						"          {Supplier Key} = DimensionSupplier@{Supplier Key},",
+						"          {Stock Item Key},",
+						"          {WWI Purchase Order ID},",
+						"          {Ordered Outers},",
+						"          {Ordered Quantity},",
+						"          {Received Outers},",
+						"          Package,",
+						"          {Is Order Finalized},",
+						"          {Lineage Key}",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select2",
+						"join3 select(mapColumn(",
+						"          {Stock Item Staging Key},",
+						"          {WWI Stock Item ID},",
+						"          {Purchase Staging Key},",
+						"          {Date Key},",
+						"          {Supplier Key},",
+						"          {Stock Item Key},",
+						"          {WWI Purchase Order ID},",
+						"          {Ordered Outers},",
+						"          {Ordered Quantity},",
+						"          {Received Outers},",
+						"          {Is Order Finalized},",
+						"          {WWI Supplier ID},",
+						"          Package",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select3",
+						"filter1, select3 join(DimensionSupplier@{WWI Supplier ID} == select3@{WWI Supplier ID},",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join2",
+						"surrogateKey1, IntegrationPurchaseStaging join(StockItemID == {WWI Stock Item ID},",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join3",
+						"select2 keyGenerate(output({Purchase Key} as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> PurchaseKey",
+						"PurchaseKey select(mapColumn(",
+						"          {Purchase Key},",
+						"          {Date Key},",
+						"          {Supplier Key},",
+						"          {Stock Item Key},",
+						"          {WWI Purchase Order ID},",
+						"          {Ordered Outers},",
+						"          {Ordered Quantity},",
+						"          {Received Outers},",
+						"          Package,",
+						"          {Is Order Finalized},",
+						"          {Lineage Key}",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select4",
+						"select4 alterRow(updateIf(true())) ~> alterRow1",
+						"IntegrationStockItemStaging keyGenerate(output({Stock Item Staging Key} as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> surrogateKey1",
+						"DimensionSupplier filter(Active == 1) ~> filter1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          {Purchase Key} as long,",
+						"          {Date Key} as date,",
+						"          {Supplier Key} as integer,",
+						"          {Stock Item Key} as integer,",
+						"          {WWI Purchase Order ID} as integer,",
+						"          {Ordered Outers} as integer,",
+						"          {Ordered Quantity} as integer,",
+						"          {Received Outers} as integer,",
+						"          Package as string,",
+						"          {Is Order Finalized} as boolean,",
+						"          {Lineage Key} as integer",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['Supplier Key'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          {Purchase Key},",
+						"          {Date Key},",
+						"          {Supplier Key},",
+						"          {Stock Item Key},",
+						"          {WWI Purchase Order ID},",
+						"          {Ordered Outers},",
+						"          {Ordered Quantity},",
+						"          {Received Outers},",
+						"          Package,",
+						"          {Is Order Finalized},",
+						"          {Lineage Key}",
+						"     )) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/StagingPurchase')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -837,19 +2202,19 @@
 						},
 						{
 							"dataset": {
-								"referenceName": "StockItems",
+								"referenceName": "IntegrationStockItemsStaging",
 								"type": "DatasetReference"
 							},
-							"name": "StockItems"
+							"name": "StockItemsStaging"
 						}
 					],
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "AzureSqlTable2",
+								"referenceName": "IntegrationPurchasingStaging",
 								"type": "DatasetReference"
 							},
-							"name": "sinkPurchaseStaging"
+							"name": "sink1"
 						}
 					],
 					"transformations": [
@@ -881,16 +2246,31 @@
 							"name": "derivedOrderedQuantity"
 						},
 						{
-							"name": "WWIStockItemsKey"
-						},
-						{
 							"name": "PurchaseStagingKey"
 						},
 						{
 							"name": "select7"
+						},
+						{
+							"name": "derivedColumn2"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "filter2"
+						},
+						{
+							"name": "filter3"
+						},
+						{
+							"name": "filter4"
 						}
 					],
 					"scriptLines": [
+						"parameters{",
+						"     LMDT as string",
+						"}",
 						"source(output(",
 						"          PurchaseOrderID as integer,",
 						"          SupplierID as integer,",
@@ -908,7 +2288,7 @@
 						"          Skey as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
+						"     validateSchema: true,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> PurchaseOrders",
 						"source(output(",
@@ -924,8 +2304,8 @@
 						"          IsOrderLineFinalized as boolean,",
 						"          LastEditedBy as integer,",
 						"          LastEditedWhen as timestamp,",
-						"          Skey as integer,",
-						"          IngestDatetime as string",
+						"          IngestDatetime as string,",
+						"          Skey as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -969,6 +2349,179 @@
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> Suppliers",
 						"source(output(",
+						"          {Stock Item Staging Key} as long,",
+						"          {WWI Stock Item ID} as integer,",
+						"          {Stock Item} as string,",
+						"          Color as integer,",
+						"          Package as string,",
+						"          Brand as string,",
+						"          Size as string,",
+						"          {Lead Time Days} as integer,",
+						"          {Quantity Per Outer} as integer,",
+						"          {Is Chiller Stock} as boolean,",
+						"          Barcode as string,",
+						"          TaxRate as decimal(18,3),",
+						"          UnitPrice as decimal(18,2),",
+						"          {Recommended Retail Price} as decimal(18,2),",
+						"          {Typical Weight Per Unit} as decimal(18,3),",
+						"          Photo as binary,",
+						"          IngestDatetime as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> StockItemsStaging",
+						"filter1 select(mapColumn(",
+						"          PurchaseOrderID,",
+						"          SupplierID,",
+						"          PurchaseOrderIDSkey = Skey,",
+						"          OrderDate,",
+						"          LastEditedWhen",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"filter2 select(mapColumn(",
+						"          PurchaseOrderLineID,",
+						"          PurchaseOrderID,",
+						"          StockItemID,",
+						"          PurchaseOrderLineSkey = Skey,",
+						"          OrderedOuters,",
+						"          ReceivedOuters,",
+						"          IsOrderLineFinalized",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select2",
+						"filter3 select(mapColumn(",
+						"          SupplierID,",
+						"          IngestDatetime,",
+						"          SupplierSKey = Skey",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select3",
+						"select1, select2 join(select1@PurchaseOrderID == select2@PurchaseOrderID,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join1",
+						"join3, select3 join(select1@SupplierID == select3@SupplierID,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join2",
+						"join1, select5 join(select2@StockItemID == select5@StockItemID,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join3",
+						"filter4 select(mapColumn(",
+						"          StockItemSKey = {Stock Item Staging Key},",
+						"          StockItemID = {WWI Stock Item ID},",
+						"          Package,",
+						"          QuantityPerOuter = {Quantity Per Outer}",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select5",
+						"derivedOrderedQuantity select(mapColumn(",
+						"          OrderDate,",
+						"          SupplierSKey,",
+						"          StockItemSKey,",
+						"          PurchaseOrderID = select1@PurchaseOrderID,",
+						"          OrderedOuters,",
+						"          OrderedQuantity,",
+						"          ReceivedOuters,",
+						"          Package,",
+						"          IsOrderLineFinalized,",
+						"          SupplierID = select1@SupplierID,",
+						"          StockItemID = select2@StockItemID,",
+						"          LastEditedWhen",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select6",
+						"join2 derive(OrderedQuantity = QuantityPerOuter*OrderedOuters) ~> derivedOrderedQuantity",
+						"select6 keyGenerate(output(PurchaseStagingKey as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> PurchaseStagingKey",
+						"PurchaseStagingKey select(mapColumn(",
+						"          {Purchase Staging Key} = PurchaseStagingKey,",
+						"          {Date Key} = OrderDate,",
+						"          {Supplier Key} = SupplierSKey,",
+						"          {Stock Item Key} = StockItemSKey,",
+						"          {WWI Purchase Order ID} = PurchaseOrderID,",
+						"          {Ordered Outers} = OrderedOuters,",
+						"          {Ordered Quantity} = OrderedQuantity,",
+						"          {Received Outers} = ReceivedOuters,",
+						"          Package,",
+						"          {Is Order Finalized} = IsOrderLineFinalized,",
+						"          {WWI Supplier ID} = SupplierID,",
+						"          {WWI Stock Item ID} = StockItemID,",
+						"          {Last Modified When} = LastEditedWhen",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select7",
+						"select7 derive(IngestDatetime = toString(currentUTC('UTC'), \"yyyy-MM-dd'T'HH:mm:ss.SSSXXX\")) ~> derivedColumn2",
+						"PurchaseOrders filter(IngestDatetime > $LMDT) ~> filter1",
+						"PurchaseOrderLines filter(IngestDatetime > $LMDT) ~> filter2",
+						"Suppliers filter(IngestDatetime > $LMDT) ~> filter3",
+						"StockItemsStaging filter(IngestDatetime > $LMDT) ~> filter4",
+						"derivedColumn2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SuppliersODS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/StagingStockItem')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "[[Stock Item Staging Key]\n      ,[WWI Stock Item ID]\n      ,[Stock Item]\n      ,[Color]\n      ,[Package]\n      ,[Brand]\n      ,[Size]\n      ,[Lead Time Days]\n      ,[Quantity Per Outer]\n      ,[Is Chiller Stock]\n      ,[Barcode]\n      ,[Tax Rate]\n      ,[Unit Price]\n      ,[Recommended Retail Price]\n      ,[Typical Weight Per Unit]\n      ,[Photo]\n      ,[Valid From]\n      ,[Valid To]\n,[IngestDatetime]",
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "StockItems",
+								"type": "DatasetReference"
+							},
+							"name": "StockItems"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "IntegrationStockItemsStaging",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "StockItemStagingKey"
+						},
+						{
+							"name": "IngestDatetime"
+						},
+						{
+							"name": "select1"
+						},
+						{
+							"name": "derivedColumn1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
 						"          StockItemID as integer,",
 						"          StockItemName as string,",
 						"          SupplierID as integer,",
@@ -996,101 +2549,56 @@
 						"          ValidTo as timestamp",
 						"     ),",
 						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
+						"     validateSchema: true,",
 						"     isolationLevel: 'READ_UNCOMMITTED',",
 						"     format: 'table') ~> StockItems",
-						"PurchaseOrders select(mapColumn(",
-						"          WWIPurchaseOrderID = PurchaseOrderID,",
-						"          WWISupplierID = SupplierID,",
-						"          SupplierKey = Skey,",
-						"          OrderDate,",
-						"          LastEditedWhen,",
-						"          WWIIngestDatetime = IngestDatetime",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"PurchaseOrderLines select(mapColumn(",
-						"          PurchaseOrderLineID,",
-						"          PurchaseOrderID,",
-						"          WWIStockItemID = StockItemID,",
-						"          StockItemKey = Skey,",
-						"          OrderedOuters,",
-						"          ReceivedOuters,",
-						"          IsOrderLineFinalized,",
+						"StockItems keyGenerate(output({Stock Item Staging Key} as long),",
+						"     startAt: 1L,",
+						"     stepValue: 1L) ~> StockItemStagingKey",
+						"StockItemStagingKey derive(IngestDatetime = toString(currentUTC('UTC'), \"yyyy-MM-dd'T'HH:mm:ss.SSSXXX\")) ~> IngestDatetime",
+						"IngestDatetime select(mapColumn(",
+						"          {Stock Item Staging Key},",
+						"          {WWI Stock Item ID} = StockItemID,",
+						"          {Stock Item} = StockItemName,",
+						"          Color = ColorID,",
+						"          Package = OuterPackageID,",
+						"          Brand,",
+						"          Size,",
+						"          {Lead Time Days} = LeadTimeDays,",
+						"          {Quantity Per Outer} = QuantityPerOuter,",
+						"          {Is Chiller Stock} = IsChillerStock,",
+						"          Barcode,",
+						"          TaxRate,",
+						"          UnitPrice,",
+						"          {Recommended Retail Price} = RecommendedRetailPrice,",
+						"          {Typical Weight Per Unit} = TypicalWeightPerUnit,",
+						"          Photo,",
 						"          IngestDatetime",
 						"     ),",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select2",
-						"Suppliers select(mapColumn(",
-						"          WWISupplierID = SupplierID,",
-						"          IngestDatetime,",
-						"          SupplierKey = Skey",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select3",
-						"select1, select2 join(WWIPurchaseOrderID == PurchaseOrderID,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> join1",
-						"join3, select3 join(select1@WWISupplierID == select3@WWISupplierID,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> join2",
-						"join1, WWIStockItemsKey join(WWIPurchaseOrderID == StockItemID,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> join3",
-						"StockItems select(mapColumn(",
-						"          StockItemID,",
-						"          OuterPackageID,",
-						"          QuantityPerOuter",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select5",
-						"derivedOrderedQuantity select(mapColumn(",
-						"          DateKey = OrderDate,",
-						"          SupplierKey = select1@WWISupplierID,",
-						"          StockItemKey = WWIStockItemID,",
-						"          WWIPurchaseOrderID = select1@WWISupplierID,",
-						"          OrderedOuters,",
-						"          OrderedQuantity,",
-						"          ReceivedOuters,",
-						"          Package = OuterPackageID,",
-						"          IsOrderLineFinalized,",
-						"          WWISupplierID = select3@SupplierKey,",
-						"          WWIStockItemID = StockItemKey,",
-						"          LastModifiedWhen = LastEditedWhen",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select6",
-						"join2 derive(OrderedQuantity = QuantityPerOuter*OrderedOuters) ~> derivedOrderedQuantity",
-						"select5 keyGenerate(output(WWIStockItemsKey as long),",
-						"     startAt: 10000L,",
-						"     stepValue: 1L) ~> WWIStockItemsKey",
-						"select6 keyGenerate(output(PurchaseStagingKey as long),",
-						"     startAt: 1L,",
-						"     stepValue: 1L) ~> PurchaseStagingKey",
-						"PurchaseStagingKey select(mapColumn(",
-						"          PurchaseStagingKey,",
-						"          DateKey,",
-						"          SupplierKey,",
-						"          StockItemKey,",
-						"          OrderedOuters,",
-						"          OrderedQuantity,",
-						"          ReceivedOuters,",
-						"          Package,",
-						"          IsOrderLineFinalized,",
-						"          WWISupplierID,",
-						"          WWIStockItemID,",
-						"          LastModifiedWhen",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select7",
-						"select7 sink(allowSchemaDrift: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 derive(Package = toString({Package})) ~> derivedColumn1",
+						"derivedColumn1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     input(",
+						"          {Stock Item Staging Key} as long,",
+						"          {WWI Stock Item ID} as integer,",
+						"          {Stock Item} as string,",
+						"          Color as integer,",
+						"          Package as string,",
+						"          Brand as string,",
+						"          Size as string,",
+						"          {Lead Time Days} as integer,",
+						"          {Quantity Per Outer} as integer,",
+						"          {Is Chiller Stock} as boolean,",
+						"          Barcode as string,",
+						"          TaxRate as decimal(18,3),",
+						"          UnitPrice as decimal(18,2),",
+						"          {Recommended Retail Price} as decimal(18,2),",
+						"          {Typical Weight Per Unit} as decimal(18,3),",
+						"          Photo as binary,",
+						"          IngestDatetime as string",
+						"     ),",
 						"     deletable:false,",
 						"     insertable:true,",
 						"     updateable:false,",
@@ -1098,11 +2606,106 @@
 						"     format: 'table',",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> sinkPurchaseStaging"
+						"     errorHandlingOption: 'stopOnFirstError',",
+						"     mapColumn(",
+						"          {Stock Item Staging Key},",
+						"          {WWI Stock Item ID},",
+						"          {Stock Item},",
+						"          Color,",
+						"          Package,",
+						"          Brand,",
+						"          Size,",
+						"          {Lead Time Days},",
+						"          {Quantity Per Outer},",
+						"          {Is Chiller Stock},",
+						"          Barcode,",
+						"          TaxRate,",
+						"          UnitPrice,",
+						"          {Recommended Retail Price},",
+						"          {Typical Weight Per Unit},",
+						"          Photo,",
+						"          IngestDatetime",
+						"     )) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow1')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "IntegrationStockItemsStaging",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "temp",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "filter1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     LMDT as string",
+						"}",
+						"source(output(",
+						"          {Stock Item Staging Key} as long,",
+						"          {WWI Stock Item ID} as integer,",
+						"          {Stock Item} as string,",
+						"          Color as integer,",
+						"          Package as string,",
+						"          Brand as string,",
+						"          Size as string,",
+						"          {Lead Time Days} as integer,",
+						"          {Quantity Per Outer} as integer,",
+						"          {Is Chiller Stock} as boolean,",
+						"          Barcode as string,",
+						"          TaxRate as decimal(18,3),",
+						"          UnitPrice as decimal(18,2),",
+						"          {Recommended Retail Price} as decimal(18,2),",
+						"          {Typical Weight Per Unit} as decimal(18,3),",
+						"          Photo as binary,",
+						"          IngestDatetime as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: true,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     format: 'table') ~> source1",
+						"source1 filter(IngestDatetime > $LMDT) ~> filter1",
+						"filter1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     recreate:true,",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/temp')]"
+			]
 		}
 	]
 }
