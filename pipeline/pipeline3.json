@@ -3,21 +3,11 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Set variable1",
-				"type": "SetVariable",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"variableName": "runtime",
-					"value": "2022-12-19T20:49:19.9058505Z"
-				}
-			},
-			{
 				"name": "Script1",
 				"type": "Script",
 				"dependsOn": [
 					{
-						"activity": "Set variable1",
+						"activity": "Set variable1_copy1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -39,10 +29,26 @@
 					"scripts": [
 						{
 							"type": "Query",
-							"text": "update dbo.MasterTab set [Last Trigger Datetime] = '@{variables('runtime')}'"
+							"text": {
+								"value": "update dbo.MasterTab set [Last Trigger Datetime] = '@{variables('runtime')}'",
+								"type": "Expression"
+							}
 						}
 					],
 					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			},
+			{
+				"name": "Set variable1_copy1",
+				"type": "SetVariable",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "runtime",
+					"value": {
+						"value": "@utcnow()",
+						"type": "Expression"
+					}
 				}
 			}
 		],
